@@ -1,0 +1,16 @@
+{
+    "godot_tools.executablePath": "/var/home/stilldoge312/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Godot Engine/godot.x11.opt.tools.64",
+    "godot_tools.lsp.serverPort": 6005,
+    "godot_tools.lsp.autoStartServer": true,
+    "editor.formatOnSave": true,
+    "[gdscript]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "files.exclude": {
+        "**/.godot": true,
+        "**/*.import": true
+    }
+}

@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dpsmm2it8ax6j"]
+
+[ext_resource type="Script" uid="uid://b7nk5an7n3x0u" path="res://scripts/main.gd" id="1_jd8g8"]
+[ext_resource type="Texture2D" uid="uid://bde1e14o0wxek" path="res://assets/skyboxes_49.png" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://bf7lirwxphohu" path="res://scripts/player.gd" id="2_qej2g"]
+[ext_resource type="PackedScene" uid="uid://0jmif36d7aqk" path="res://assets/grass.blend" id="4_jyhfs"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jyhfs"]
+panorama = ExtResource("1_sugp2")
+
+[sub_resource type="Sky" id="Sky_0380h"]
+sky_material = SubResource("PanoramaSkyMaterial_jyhfs")
+
+[sub_resource type="Environment" id="Environment_ftg7o"]
+background_mode = 2
+sky = SubResource("Sky_0380h")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.55
+tonemap_mode = 2
+tonemap_exposure = 1.15
+glow_enabled = true
+glow_intensity = 0.75
+fog_enabled = true
+fog_light_color = Color(0.6, 0.9, 1, 1)
+fog_light_energy = 0.35
+fog_density = 0.004
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1smyo"]
+radius = 0.4
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wv6k"]
+albedo_color = Color(0.95, 0.98, 1, 1)
+metallic = 0.05
+roughness = 0.25
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6ppn3"]
+radius = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78kda"]
+albedo_color = Color(0.76, 0.94, 1, 1)
+metallic = 0.15
+roughness = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_tq1wl"]
+radius = 0.26
+height = 0.52
+
+[node name="Main" type="Node3D" unique_id=486184376]
+script = ExtResource("1_jd8g8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=609823035]
+environment = SubResource("Environment_ftg7o")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1397385971]
+transform = Transform3D(0.98558486, -0.12272001, -0.11645747, 0, 0.6883562, -0.7253729, 0.16918199, 0.71491647, 0.6784334, 0, 34.215332, 0)
+light_color = Color(0.87, 0.95, 1, 1)
+light_energy = 1.4
+shadow_enabled = true
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=168654913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.270941, 0)
+script = ExtResource("2_qej2g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=36214131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_1smyo")
+
+[node name="Visual" type="Node3D" parent="Player" unique_id=207015414]
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Player/Visual" unique_id=1481342094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+material_override = SubResource("StandardMaterial3D_0wv6k")
+mesh = SubResource("CapsuleMesh_6ppn3")
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Player/Visual" unique_id=1849068250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+material_override = SubResource("StandardMaterial3D_78kda")
+mesh = SubResource("SphereMesh_tq1wl")
+
+[node name="CameraRig" type="Node3D" parent="Player" unique_id=250036780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="PitchPivot" type="Node3D" parent="Player/CameraRig" unique_id=1575683861]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraRig/PitchPivot" unique_id=2089970162]
+spring_length = 6.2
+margin = 0.05
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraRig/PitchPivot/SpringArm3D" unique_id=1634322252]
+current = true
+fov = 82.0
+
+[node name="grass" parent="." unique_id=2011431623 instance=ExtResource("4_jyhfs")]
