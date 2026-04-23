@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b7nk5an7n3x0u" path="res://scripts/main.gd" id="1_jd8g8"]
 [ext_resource type="Texture2D" uid="uid://bde1e14o0wxek" path="res://assets/skyboxes_49.png" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://bf7lirwxphohu" path="res://scripts/player.gd" id="2_qej2g"]
-[ext_resource type="PackedScene" uid="uid://0jmif36d7aqk" path="res://assets/grass.blend" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://m404fvjvh4by" path="res://assets/grass/grass.blend" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://c5jb8uf7te68i" path="res://assets/player/man.glb" id="5_k6xdv"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jyhfs"]
@@ -21,7 +21,6 @@ tonemap_mode = 2
 tonemap_exposure = 1.15
 glow_enabled = true
 glow_intensity = 0.75
-fog_enabled = true
 fog_light_color = Color(0.6, 0.9, 1, 1)
 fog_light_energy = 0.35
 fog_density = 0.004
@@ -45,6 +44,7 @@ shadow_enabled = true
 [node name="Player" type="CharacterBody3D" parent="." unique_id=168654913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.270941, 0)
 script = ExtResource("2_qej2g")
+outline_thickness = 0.01
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=36214131]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -52,7 +52,7 @@ shape = SubResource("CapsuleShape3D_1smyo")
 
 [node name="Visual" type="Node3D" parent="Player" unique_id=207015414]
 
-[node name="PlayerModel" parent="Player/Visual" instance=ExtResource("5_k6xdv")]
+[node name="PlayerModel" parent="Player/Visual" unique_id=1490766334 instance=ExtResource("5_k6xdv")]
 transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, 0, 0)
 
 [node name="CameraRig" type="Node3D" parent="Player" unique_id=250036780]
@@ -68,4 +68,4 @@ margin = 0.05
 current = true
 fov = 82.0
 
-[node name="grass" parent="." unique_id=2011431623 instance=ExtResource("4_jyhfs")]
+[node name="grass" parent="." unique_id=2009422018 instance=ExtResource("4_jyhfs")]

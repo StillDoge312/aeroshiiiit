@@ -10,6 +10,12 @@ extends CharacterBody3D
 @export var min_pitch: float = deg_to_rad(-70.0)
 @export var max_pitch: float = deg_to_rad(55.0)
 @export var model_yaw_offset: float = deg_to_rad(90.0)
+@export var glass_color: Color = Color(0.16, 0.52, 1.0, 0.28)
+@export var glass_roughness: float = 0.06
+@export var glass_metallic: float = 0.02
+@export var outline_color: Color = Color(0.0, 0.0, 0.0, 1.0)
+@export var outline_thickness: float = 0.03
+@export_range(0.01, 0.95, 0.01) var outline_edge_threshold: float = 0.35
 @export var idle_animation_name: StringName = &"Idle"
 @export var walk_animation_name: StringName = &"Walk"
 @export var jump_animation_name: StringName = &"Jump"
@@ -24,6 +30,7 @@ var _gravity: float = float(ProjectSettings.get_setting("physics/3d/default_grav
 var _yaw: float = 0.0
 var _pitch: float = deg_to_rad(-14.0)
 var _camera_rotate_active: bool = false
+var _controls_enabled: bool = true
 var _jump_buffer_left: float = 0.0
 var _coyote_left: float = 0.0
 var _idle_animation: StringName = StringName()
@@ -34,6 +41,7 @@ var _current_animation: StringName = StringName()
 
 func _ready() -> void:
 	_ensure_jump_action()
+	_apply_glass_material()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	camera_rig.rotation.y = _yaw
 	pitch_pivot.rotation.x = _pitch
@@ -41,6 +49,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _controls_enabled:
+		return
 	if event.is_action_pressed("camera_rotate"):
 		_camera_rotate_active = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -56,6 +66,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not _controls_enabled:
+		velocity = Vector3.ZERO
+		_update_animation_state(0.0)
+		move_and_slide()
+		return
+
 	var jump_pressed: bool = Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_accept")
 	if jump_pressed:
 		_jump_buffer_left = jump_buffer_time
@@ -107,6 +123,70 @@ func _ensure_jump_action() -> void:
 	var jump_key := InputEventKey.new()
 	jump_key.physical_keycode = KEY_SPACE
 	InputMap.action_add_event("jump", jump_key)
+
+
+func set_controls_enabled(enabled: bool) -> void:
+	_controls_enabled = enabled
+	_camera_rotate_active = false
+	if not enabled:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _apply_glass_material() -> void:
+	var glass_material := _make_glass_material()
+	var meshes: Array[Node] = visual.find_children("*", "MeshInstance3D", true, false)
+	for mesh_node in meshes:
+		var mesh_instance := mesh_node as MeshInstance3D
+		if mesh_instance == null:
+			continue
+		mesh_instance.material_override = glass_material
+
+
+func _make_glass_material() -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+	material.albedo_color = glass_color
+	material.roughness = glass_roughness
+	material.metallic = glass_metallic
+	material.clearcoat = 1.0
+	material.clearcoat_roughness = 0.03
+	material.emission_enabled = true
+	material.emission = Color(0.04, 0.1, 0.24, 1.0)
+	material.emission_energy_multiplier = 0.4
+	material.next_pass = _make_outline_material()
+	return material
+
+
+func _make_outline_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+shader_type spatial;
+render_mode unshaded, cull_front, depth_draw_opaque;
+
+uniform vec4 outline_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float outline_thickness = 0.03;
+uniform float edge_threshold = 0.35;
+
+void vertex() {
+	VERTEX += NORMAL * outline_thickness;
+}
+
+void fragment() {
+	float ndv = abs(dot(normalize(NORMAL), normalize(VIEW)));
+	if (ndv > edge_threshold) {
+		discard;
+	}
+	ALBEDO = outline_color.rgb;
+	ALPHA = outline_color.a;
+}
+"""
+
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("outline_color", outline_color)
+	material.set_shader_parameter("outline_thickness", outline_thickness)
+	material.set_shader_parameter("edge_threshold", outline_edge_threshold)
+	return material
 
 
 func _find_animation_player() -> AnimationPlayer:
