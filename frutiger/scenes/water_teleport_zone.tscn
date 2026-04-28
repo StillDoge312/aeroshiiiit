@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dt6mf4esslb3w"]
+
+[ext_resource type="Script" uid="uid://rkswcih2n7a2" path="res://scripts/water_teleport_zone.gd" id="1_h5ujy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u18v7"]
+size = Vector3(4, 2, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ofni7"]
+size = Vector3(4, 2, 4)
+
+[node name="WaterTeleportZone" type="Node3D" unique_id=1251459227]
+script = ExtResource("1_h5ujy")
+
+[node name="WaterArea" type="Area3D" parent="." unique_id=930726905]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterArea" unique_id=1827613378]
+shape = SubResource("BoxShape3D_u18v7")
+
+[node name="WaterVisual" type="MeshInstance3D" parent="WaterArea" unique_id=523219213]
+mesh = SubResource("BoxMesh_ofni7")

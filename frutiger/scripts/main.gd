@@ -392,16 +392,14 @@ func _apply_environment(mode_name: String) -> void:
 			env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 			env.ambient_light_sky_contribution = 0.7
 		"Moody":
-			env.fog_enabled = true
-			env.fog_density = 0.009
+			env.fog_enabled = false
 			env.glow_enabled = true
 			env.glow_intensity = 0.95
 			env.tonemap_exposure = 0.95
 			env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 			env.ambient_light_sky_contribution = 0.4
 		_:
-			env.fog_enabled = true
-			env.fog_density = 0.004
+			env.fog_enabled = false
 			env.glow_enabled = true
 			env.glow_intensity = 0.75
 			env.tonemap_exposure = 1.15
