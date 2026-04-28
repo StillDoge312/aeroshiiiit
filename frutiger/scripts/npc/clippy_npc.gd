@@ -1,8 +1,10 @@
 extends Node3D
 
+const BUBBLE_POP_SOUND_PATH := "res://sounds/bubble pop.mp3.mp3"
+
 const DIALOG_LINES: Array[Dictionary] = [
 	{"speaker": "Clippy", "text": "Помоги спасти моего ребёнка"},
-	{"speaker": "Clippy", "text": "он скоро утоонет"},
+	{"speaker": "Clippy", "text": "она скоро утоонет"},
 	{"speaker": "Clippy", "text": "быстрее"}
 ]
 const REUNION_DIALOG_LINES: Array[Dictionary] = [
@@ -12,7 +14,7 @@ const REUNION_DIALOG_LINES: Array[Dictionary] = [
 	{"speaker": "Clippy", "text": "Найди моего друга бабайку, он возле замка"},
 	{"speaker": "Clippy", "text": "ОСТЕРЕГАЙСЯ ГЛАЗ"},
 	{"speaker": "Clippy", "text": "..."},
-	{"speaker": "Clippy", "text": "Ну всё, я пошёл"},
+	{"speaker": "Clippy", "text": "Ну всё, я пошёл за хлебом"},
 	{"speaker": "Clippy", "text": "*исчезаю*"}
 ]
 
@@ -96,6 +98,8 @@ func _on_reunion_dialog_finished() -> void:
 	_reunion_finished = true
 	_dialog_active = false
 	prompt.visible = false
+	get_tree().root.set_meta("clippy_dead", true)
+	_play_one_shot_sound(BUBBLE_POP_SOUND_PATH, "SFX", -2.0)
 	queue_free()
 
 
@@ -163,3 +167,18 @@ func _ensure_interact_action() -> void:
 	var interact_key := InputEventKey.new()
 	interact_key.physical_keycode = KEY_E
 	InputMap.action_add_event(interact_action, interact_key)
+
+
+func _play_one_shot_sound(stream_path: String, bus_name: String, volume_db: float) -> void:
+	var stream := load(stream_path) as AudioStream
+	if stream == null:
+		push_warning("Sound not found: " + stream_path)
+		return
+
+	var player_node := AudioStreamPlayer.new()
+	player_node.stream = stream
+	player_node.bus = bus_name
+	player_node.volume_db = volume_db
+	get_tree().root.add_child(player_node)
+	player_node.finished.connect(player_node.queue_free)
+	player_node.play()

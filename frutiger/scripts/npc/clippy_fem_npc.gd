@@ -61,6 +61,13 @@ func is_following_player() -> bool:
 	return _following_player
 
 
+func die_in_water() -> void:
+	_following_player = false
+	_player_inside = false
+	prompt.visible = false
+	queue_free()
+
+
 func move_near_clippy(clippy_node: Node3D) -> void:
 	_following_player = false
 	_player_inside = false

@@ -43,7 +43,31 @@ fog_density = 0.004
 radius = 0.4
 height = 2.6293945
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_0ld40"]
+size = Vector3(0.3928833, 0.22027493, 1.345108)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_a8y0u"]
+size = Vector3(0.3928833, 0.10949516, 1.1408157)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gqmmt"]
+size = Vector3(0.3928833, 0.10949516, 0.8123512)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yc10j"]
+size = Vector3(0.3928833, 0.10949516, 1.1393509)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jscy8"]
+size = Vector3(0.3928833, 0.10949516, 1.345108)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pm3ni"]
+size = Vector3(0.3928833, 0.10949516, 0.9225807)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y6deb"]
+size = Vector3(0.3928833, 0.10949516, 0.92001724)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_og1vs"]
+size = Vector3(0.3928833, 0.10949516, 1.0875931)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2wyq8"]
 size = Vector3(0.3928833, 0.10949516, 1.345108)
 
 [node name="Main" type="Node3D" unique_id=486184376]
@@ -61,32 +85,27 @@ shadow_enabled = true
 [node name="SkyClouds" type="Node3D" parent="." unique_id=287389059]
 
 [node name="Cloud01" type="Sprite3D" parent="SkyClouds" unique_id=686865786]
-transform = Transform3D(28, 0, 0, 0, 28, 0, 0, 0, 28, 120, 145, -260)
-billboard = 1
+transform = Transform3D(28, 0, 0, 0, -1.2239188e-06, 28, 0, -28, -1.2239188e-06, 120, 145, -260)
 no_depth_test = true
 texture = ExtResource("17_4tyj1")
 
 [node name="Cloud02" type="Sprite3D" parent="SkyClouds" unique_id=295322941]
-transform = Transform3D(24, 0, 0, 0, 24, 0, 0, 0, 24, 260, 158, -140)
-billboard = 1
+transform = Transform3D(24, 0, 0, 0, -1.0490733e-06, 24, 0, -24, -1.0490733e-06, 260, 158, -140)
 no_depth_test = true
 texture = ExtResource("18_n3m8d")
 
 [node name="Cloud03" type="Sprite3D" parent="SkyClouds" unique_id=331465331]
-transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 360, 150, -330)
-billboard = 1
+transform = Transform3D(30, 0, 0, 0, -1.3113416e-06, 30, 0, -30, -1.3113416e-06, 360, 150, -330)
 no_depth_test = true
 texture = ExtResource("19_9p2sa")
 
 [node name="Cloud04" type="Sprite3D" parent="SkyClouds" unique_id=1537521042]
-transform = Transform3D(22, 0, 0, 0, 22, 0, 0, 0, 22, 40, 162, -80)
-billboard = 1
+transform = Transform3D(22, 0, 0, 0, -9.616506e-07, 22, 0, -22, -9.616506e-07, 40, 162, -80)
 no_depth_test = true
 texture = ExtResource("18_n3m8d")
 
 [node name="Cloud05" type="Sprite3D" parent="SkyClouds" unique_id=1984457824]
-transform = Transform3D(26, 0, 0, 0, 26, 0, 0, 0, 26, 420, 168, -210)
-billboard = 1
+transform = Transform3D(26, 0, 0, 0, -1.136496e-06, 26, 0, -26, -1.136496e-06, 420, 168, -210)
 no_depth_test = true
 texture = ExtResource("17_4tyj1")
 
@@ -128,7 +147,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04220915, 0.058112144, -5.
 metadata/_edit_lock_ = true
 
 [node name="WaterTeleportZone" parent="." unique_id=122103309 instance=ExtResource("6_tefeu")]
-transform = Transform3D(159.98549, 0, 0, 0, 9.055309, 0, 0, 0, 104.29911, 246.83372, -70.16541, -349.40668)
+transform = Transform3D(159.10458, 0, 0, 0, 9.005449, 0, 0, 0, 103.72482, 246.83372, -70.16541, -349.40668)
 teleport_player = true
 
 [node name="TeleportTarget" parent="." unique_id=96333027 instance=ExtResource("7_o6xl0")]
@@ -160,7 +179,7 @@ transform = Transform3D(0.99458915, 0, -0.103886776, 0, 1, 0, 0.103886776, 0, 0.
 target_path = NodePath("../../Player")
 
 [node name="BushProp06" parent="treesnbashes" unique_id=2015991406 instance=ExtResource("12_3c84m")]
-transform = Transform3D(-0.3764558, 0, -0.9264343, 0, 1, 0, 0.9264343, 0, -0.3764558, -276.2252, 11.265598, -356.6649)
+transform = Transform3D(-0.37645578, 0, -0.9264342, 0, 1, 0, 0.9264342, 0, -0.37645578, -276.2252, 11.265598, -356.6649)
 target_path = NodePath("../../Player")
 
 [node name="BushProp07" parent="treesnbashes" unique_id=678354569 instance=ExtResource("12_3c84m")]
@@ -184,11 +203,11 @@ transform = Transform3D(0.40471995, 0, -0.9144407, 0, 1, 0, 0.9144407, 0, 0.4047
 target_path = NodePath("../../Player")
 
 [node name="TreeProp03" parent="treesnbashes" unique_id=1345497836 instance=ExtResource("11_34xqc")]
-transform = Transform3D(-0.27498785, 0, -0.9614474, 0, 1, 0, 0.9614474, 0, -0.27498785, -185.13272, 18.038422, -297.37164)
+transform = Transform3D(-0.27498782, 0, -0.96144736, 0, 1, 0, 0.96144736, 0, -0.27498782, -185.13272, 18.038422, -297.37164)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp02" parent="treesnbashes" unique_id=1462619591 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.92405045, 0, 0.3822698, 0, 1, 0, -0.3822698, 0, 0.92405045, 100.19693, 7.3094788, -2.2176971)
+transform = Transform3D(0.9240504, 0, 0.38226977, 0, 1, 0, -0.38226977, 0, 0.9240504, 100.19693, 7.3094788, -2.2176971)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp01" parent="treesnbashes" unique_id=948642249 instance=ExtResource("9_wqj3u")]
@@ -228,7 +247,7 @@ transform = Transform3D(0.36215138, 0, -0.9321193, 0, 1, 0, 0.9321193, 0, 0.3621
 target_path = NodePath("../../Player")
 
 [node name="BushProp17" parent="treesnbashes" unique_id=876281154 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.06725669, 0, -0.99773544, 0, 1, 0, 0.99773544, 0, -0.06725669, -419.98987, -5.665291, -272.73224)
+transform = Transform3D(-0.06725668, 0, -0.9977354, 0, 1, 0, 0.9977354, 0, -0.06725668, -419.98987, -5.665291, -272.73224)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp07" parent="treesnbashes" unique_id=1025737136 instance=ExtResource("11_34xqc")]
@@ -288,7 +307,7 @@ transform = Transform3D(-0.62405103, 0, 0.7813836, 0, 1, 0, -0.7813836, 0, -0.62
 target_path = NodePath("../../Player")
 
 [node name="TreeProp14" parent="treesnbashes" unique_id=1706773133 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.058162447, 0, 0.9983068, 0, 1, 0, -0.9983068, 0, 0.058162447, 723.0322, -10.273525, -202.29639)
+transform = Transform3D(0.058162443, 0, 0.99830675, 0, 1, 0, -0.99830675, 0, 0.058162443, 723.0322, -10.273525, -202.29639)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp15" parent="treesnbashes" unique_id=665397893 instance=ExtResource("10_ju23w")]
@@ -312,7 +331,7 @@ transform = Transform3D(-0.89073163, 0, -0.45452943, 0, 1, 0, 0.45452943, 0, -0.
 target_path = NodePath("../../Player")
 
 [node name="TreeProp20" parent="treesnbashes" unique_id=472632791 instance=ExtResource("9_wqj3u")]
-transform = Transform3D(-0.34621924, 0, 0.9381533, 0, 1, 0, -0.9381533, 0, -0.34621924, 77.06405, 15.731621, -272.861)
+transform = Transform3D(-0.34621924, 0, 0.93815327, 0, 1, 0, -0.93815327, 0, -0.34621924, 77.06405, 15.731621, -272.861)
 target_path = NodePath("../../Player")
 
 [node name="BushProp25" parent="treesnbashes" unique_id=1366791816 instance=ExtResource("13_9m4bt")]
@@ -344,7 +363,7 @@ transform = Transform3D(-0.91710263, 0, -0.39865083, 0, 1, 0, 0.39865083, 0, -0.
 target_path = NodePath("../../Player")
 
 [node name="BushProp28" parent="treesnbashes" unique_id=995338098 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.9919225, 0, 0.12684548, 0, 1, 0, -0.12684548, 0, -0.9919225, 36.498924, 11.252495, -529.8401)
+transform = Transform3D(-0.9919225, 0, 0.12684548, 0, 1, 0, -0.12684548, 0, -0.9919225, 36.498924, 8.750692, -529.8401)
 target_path = NodePath("../../Player")
 
 [node name="BushProp29" parent="treesnbashes" unique_id=947317021 instance=ExtResource("14_h8nb2")]
@@ -360,11 +379,11 @@ transform = Transform3D(0.5773908, 0, 0.81646794, 0, 1, 0, -0.81646794, 0, 0.577
 target_path = NodePath("../../Player")
 
 [node name="TreeProp27" parent="treesnbashes" unique_id=1239442791 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.24973778, 0, -0.9683131, 0, 1, 0, 0.9683131, 0, 0.24973778, -448.2869, 0.06303406, -128.80331)
+transform = Transform3D(0.24973777, 0, -0.96831304, 0, 1, 0, 0.96831304, 0, 0.24973777, -448.2869, 0.06303406, -128.80331)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp28" parent="treesnbashes" unique_id=102816559 instance=ExtResource("9_wqj3u")]
-transform = Transform3D(0.21092717, 0, -0.9775015, 0, 1, 0, 0.9775015, 0, 0.21092717, -310.45575, 8.022629, -177.43025)
+transform = Transform3D(0.21092716, 0, -0.97750145, 0, 1, 0, 0.97750145, 0, 0.21092716, -310.45575, 8.022629, -177.43025)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp29" parent="treesnbashes" unique_id=998314689 instance=ExtResource("9_wqj3u")]
@@ -372,7 +391,7 @@ transform = Transform3D(-0.12073118, 0, -0.9926851, 0, 1, 0, 0.9926851, 0, -0.12
 target_path = NodePath("../../Player")
 
 [node name="BushProp30" parent="treesnbashes" unique_id=507733733 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.1507333, 0, -0.9885742, 0, 1, 0, 0.9885742, 0, 0.1507333, -571.66986, 1.0646591, -157.25536)
+transform = Transform3D(0.15073329, 0, -0.98857415, 0, 1, 0, 0.98857415, 0, 0.15073329, -571.66986, 1.0646591, -157.25536)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp30" parent="treesnbashes" unique_id=2134804027 instance=ExtResource("9_wqj3u")]
@@ -380,11 +399,11 @@ transform = Transform3D(-0.48437938, 0, 0.8748578, 0, 1, 0, -0.8748578, 0, -0.48
 target_path = NodePath("../../Player")
 
 [node name="TreeProp31" parent="treesnbashes" unique_id=301994974 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.2748507, 0, 0.96148664, 0, 1, 0, -0.96148664, 0, 0.2748507, 188.43936, 3.8447037, -190.55373)
+transform = Transform3D(0.27485067, 0, 0.9614866, 0, 1, 0, -0.9614866, 0, 0.27485067, 188.43936, 3.8447037, -190.55373)
 target_path = NodePath("../../Player")
 
 [node name="BushProp31" parent="treesnbashes" unique_id=1116576010 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.066828296, 0, 0.9977642, 0, 1, 0, -0.9977642, 0, 0.066828296, 197.11536, 5.5202675, -231.2186)
+transform = Transform3D(0.06682829, 0, 0.99776417, 0, 1, 0, -0.99776417, 0, 0.06682829, 197.11536, 5.5202675, -231.2186)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp32" parent="treesnbashes" unique_id=711003806 instance=ExtResource("9_wqj3u")]
@@ -392,11 +411,11 @@ transform = Transform3D(0.29289895, 0, 0.95614326, 0, 1, 0, -0.95614326, 0, 0.29
 target_path = NodePath("../../Player")
 
 [node name="BushProp32" parent="treesnbashes" unique_id=215484167 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.65064484, 0, 0.7593822, 0, 1, 0, -0.7593822, 0, -0.65064484, 215.01471, 8.797417, -428.64734)
+transform = Transform3D(-0.6506448, 0, 0.7593821, 0, 1, 0, -0.7593821, 0, -0.6506448, 215.01471, 5.881714, -428.64734)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp33" parent="treesnbashes" unique_id=832751661 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.06638891, 0, 0.9977935, 0, 1, 0, -0.9977935, 0, 0.06638891, 222.05511, -2.8646278, -229.64642)
+transform = Transform3D(0.06638891, 0, 0.99779344, 0, 1, 0, -0.99779344, 0, 0.06638891, 222.05511, -2.8646278, -229.64642)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp34" parent="treesnbashes" unique_id=392948326 instance=ExtResource("10_ju23w")]
@@ -408,11 +427,11 @@ transform = Transform3D(-0.36669993, 0, 0.9303393, 0, 1, 0, -0.9303393, 0, -0.36
 target_path = NodePath("../../Player")
 
 [node name="BushProp33" parent="treesnbashes" unique_id=2129495484 instance=ExtResource("13_9m4bt")]
-transform = Transform3D(-0.6466912, 0, 0.76275194, 0, 1, 0, -0.76275194, 0, -0.6466912, 155.80136, 10.427265, -376.51553)
+transform = Transform3D(-0.6466912, 0, 0.76275194, 0, 1, 0, -0.76275194, 0, -0.6466912, 155.80136, 7.4795, -376.51553)
 target_path = NodePath("../../Player")
 
 [node name="BushProp34" parent="treesnbashes" unique_id=1466905133 instance=ExtResource("13_9m4bt")]
-transform = Transform3D(-0.4807717, 0, 0.8768457, 0, 1, 0, -0.8768457, 0, -0.4807717, 144.55951, 12.926441, -323.6825)
+transform = Transform3D(-0.48077163, 0, 0.8768456, 0, 1, 0, -0.8768456, 0, -0.48077163, 144.55951, 9.978676, -323.6825)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp36" parent="treesnbashes" unique_id=988525790 instance=ExtResource("9_wqj3u")]
@@ -424,7 +443,7 @@ transform = Transform3D(0.016237812, 0, 0.99986815, 0, 1, 0, -0.99986815, 0, 0.0
 target_path = NodePath("../../Player")
 
 [node name="TreeProp38" parent="treesnbashes" unique_id=808061300 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.15303028, 0, 0.98822117, 0, 1, 0, -0.98822117, 0, -0.15303028, 215.6128, -0.09460449, -277.80957)
+transform = Transform3D(-0.15303026, 0, 0.9882211, 0, 1, 0, -0.9882211, 0, -0.15303026, 215.6128, -0.09460449, -277.80957)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp39" parent="treesnbashes" unique_id=974761967 instance=ExtResource("9_wqj3u")]
@@ -432,7 +451,7 @@ transform = Transform3D(-0.49804503, 0, 0.867151, 0, 1, 0, -0.867151, 0, -0.4980
 target_path = NodePath("../../Player")
 
 [node name="BushProp35" parent="treesnbashes" unique_id=436004752 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.71714497, 0, 0.6969239, 0, 1, 0, -0.6969239, 0, -0.71714497, 181.78778, 9.285614, -431.48328)
+transform = Transform3D(-0.71714497, 0, 0.6969239, 0, 1, 0, -0.6969239, 0, -0.71714497, 181.78778, 6.4047775, -431.48328)
 target_path = NodePath("../../Player")
 
 [node name="BushProp36" parent="treesnbashes" unique_id=1377511184 instance=ExtResource("13_9m4bt")]
@@ -448,7 +467,7 @@ transform = Transform3D(0.28833127, 0, 0.95753074, 0, 1, 0, -0.95753074, 0, 0.28
 target_path = NodePath("../../Player")
 
 [node name="TreeProp41" parent="treesnbashes" unique_id=207420974 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.07692493, 0, 0.9970366, 0, 1, 0, -0.9970366, 0, -0.07692493, 121.811714, 11.403805, -253.81921)
+transform = Transform3D(-0.07692492, 0, 0.9970365, 0, 1, 0, -0.9970365, 0, -0.07692492, 121.811714, 11.403805, -253.81921)
 target_path = NodePath("../../Player")
 
 [node name="ClippyFemNPC" parent="." unique_id=1442278290 instance=ExtResource("16_jbj1t")]
@@ -467,8 +486,8 @@ transform = Transform3D(21.432407, 0, 0, 0, 35.503998, 0, 0, 0, 26.920677, 394.0
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat/StaticBody3D" unique_id=272351337]
-transform = Transform3D(1.0000026, 0, 0, 0, 1, 0, 0, 0, 1, -0.0019264221, -0.0016479492, -0.048279762)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(1.0000026, 0, 0, 0, 1, 0, 0, 0, 1, -0.0019264221, 0.05374205, -0.048279762)
+shape = SubResource("BoxShape3D_0ld40")
 
 [node name="boat2" type="Node3D" parent="boats" unique_id=1808395441]
 transform = Transform3D(21.43241, 0, 0, 0, 2.002924, -26.877806, 0, 35.447456, 1.518704, 264.2234, -66.4384, -337.12457)
@@ -479,7 +498,7 @@ transform = Transform3D(21.43241, 0, 0, 0, 2.002924, -26.877806, 0, 35.447456, 1
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat2/StaticBody3D" unique_id=1567227552]
-transform = Transform3D(1.0000026, 0, 0, 0, 1.0000138, 0, 0, -2.9802322e-08, 1.0000002, -0.0019283295, 0.09539986, -0.015396357)
+transform = Transform3D(1.0000026, 0, 0, 0, 1.0000138, 0, 0, -2.9802322e-08, 1.0000002, -0.0019283295, 0.0953989, 0.08675003)
 shape = SubResource("BoxShape3D_a8y0u")
 
 [node name="boat3" type="Node3D" parent="boats" unique_id=1587447216]
@@ -491,8 +510,8 @@ transform = Transform3D(21.43241, 0, 0, 0, -35.49874, -0.46325415, 0, 0.6109569,
 transform = Transform3D(1.0000002, 0, 0, 0, 1.0000001, 0, 0, -1.8626451e-09, 1.0000001, 0, -0.14882302, -0.0033779144)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat3/StaticBody3D" unique_id=528642937]
-transform = Transform3D(1.0000026, 0, 0, 0, 1.0000001, 0, 0, -1.8626451e-09, 1.0000001, -0.0019264221, -0.10294092, -0.050578117)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(1.0000026, 0, 0, 0, 1.0000002, -3.5390258e-08, 0, -7.450581e-09, 1.0000147, -0.0019264221, -0.102941036, -0.045768738)
+shape = SubResource("BoxShape3D_gqmmt")
 
 [node name="boat4" type="Node3D" parent="boats" unique_id=1537286746]
 transform = Transform3D(-1.3789774, -35.374012, -1.5155576, 0, 2.0029244, -26.87781, 21.388002, -2.2807162, -0.09771488, 241.15628, -63.611736, -355.7279)
@@ -503,8 +522,8 @@ transform = Transform3D(-1.3789774, -35.374012, -1.5155576, 0, 2.0029244, -26.87
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat4/StaticBody3D" unique_id=471244455]
-transform = Transform3D(0.9999959, 3.7252903e-08, 1.6298145e-08, -3.7252903e-09, 0.99999964, 1.5590922e-07, -7.916242e-09, -2.0838343e-08, 1, -0.0019226074, 0.08387709, -0.04828012)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(0.99998593, 3.7252903e-08, 1.6298145e-08, 4.0978193e-08, 0.99999964, 1.5590922e-07, -1.6763806e-08, -2.0838343e-08, 1, -0.0019245148, 0.08387661, 0.05459845)
+shape = SubResource("BoxShape3D_yc10j")
 
 [node name="boat5" type="Node3D" parent="boats" unique_id=1070170256]
 transform = Transform3D(-2.7635498, 0.41392535, 26.694103, -0.032221187, -35.50158, 0.31123582, 21.253466, 0, 3.4714565, 322.56512, -58.165787, -337.12457)
@@ -516,7 +535,7 @@ transform = Transform3D(0.92732155, 3.7854803e-10, 2.9802322e-08, -5.7346385e-11
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat5/StaticBody3D" unique_id=1291003306]
 transform = Transform3D(1.0000025, 3.1686298e-10, 0, 2.2919727e-10, 1, -9.414234e-10, -2.9802322e-08, 3.4190472e-07, 1, -0.0019302368, 0.041012526, -0.30199623)
-shape = SubResource("BoxShape3D_a8y0u")
+shape = SubResource("BoxShape3D_jscy8")
 
 [node name="boat6" type="Node3D" parent="boats" unique_id=655138014]
 transform = Transform3D(23.631033, -0.46905527, 41.04697, 0, -34.916073, -0.9050609, 29.50796, 0.37563628, -32.871887, 252.41039, -63.18147, -344.13525)
@@ -527,8 +546,8 @@ transform = Transform3D(23.631033, -0.46905527, 41.04697, 0, -34.916073, -0.9050
 transform = Transform3D(1.0000002, 0, 0, 0, 1.0000001, 0, 0, -1.8626451e-09, 1.0000001, 0, -0.14882302, -0.0033779144)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat6/StaticBody3D" unique_id=1722998774]
-transform = Transform3D(1.0000026, -4.656613e-10, 5.9604645e-08, 9.313226e-10, 0.99999994, 0, -5.9604645e-08, 4.656613e-10, 0.9999999, -0.0019264221, -0.07452476, -0.049111843)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(1.0000024, -6.053597e-08, 1.7881393e-06, 0, 0.9999883, -6.239861e-08, -2.9802322e-08, 5.3085387e-08, 0.9999865, -0.0019259453, -0.07452524, -0.021902561)
+shape = SubResource("BoxShape3D_pm3ni")
 
 [node name="boat7" type="Node3D" parent="boats" unique_id=456341784]
 transform = Transform3D(-53.67482, 0.36822072, 17.440424, -0.14076827, -35.626537, 0.2460966, 76.72254, 0.1922393, 12.201708, 358.6629, -58.165787, -337.12457)
@@ -539,8 +558,8 @@ transform = Transform3D(-53.67482, 0.36822072, 17.440424, -0.14076827, -35.62653
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat7/StaticBody3D" unique_id=459192386]
-transform = Transform3D(1.0000025, -4.050591e-10, 0, 2.2919727e-10, 1, -9.414234e-10, -2.9802322e-08, 1.5525e-07, 1, -0.0019283295, 0.041012526, -0.048280716)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(1.0000025, -3.4924597e-10, 5.2154064e-08, 1.7415732e-07, 0.9999999, 5.9371814e-08, -2.3841858e-07, 1.5599653e-07, 0.99999976, -0.0019283295, 0.041012764, -0.03993416)
+shape = SubResource("BoxShape3D_y6deb")
 
 [node name="boat8" type="Node3D" parent="boats" unique_id=308949174]
 transform = Transform3D(-1.260013, -37.414276, 13.568073, -0.5940726, -15.118093, -33.555717, 21.606085, -2.5975883, -0.13137905, 290.60898, -68.13216, -332.45633)
@@ -551,8 +570,8 @@ transform = Transform3D(-1.260013, -37.414276, 13.568073, -0.5940726, -15.118093
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat8/StaticBody3D" unique_id=671043666]
-transform = Transform3D(0.9999959, 3.7252903e-08, 1.6298145e-08, -3.7252903e-09, 0.99999964, 1.5590922e-07, -7.916242e-09, -2.0838343e-08, 1, -0.0019226074, 0.08387709, -0.04828012)
-shape = SubResource("BoxShape3D_a8y0u")
+transform = Transform3D(0.9999958, 2.2351742e-08, -6.891787e-07, 0, 0.9999996, 3.8713915e-07, -6.7520887e-09, 4.8137736e-08, 1.0000002, -0.0019207001, 0.08387709, 0.08047724)
+shape = SubResource("BoxShape3D_og1vs")
 
 [node name="boat9" type="Node3D" parent="boats" unique_id=1474712380]
 transform = Transform3D(15.254918, -0.4291447, 18.906662, 0, -35.498745, -0.4632542, 15.054425, 0.43486, -19.158457, 190.30522, -64.60039, -344.13525)
@@ -560,11 +579,11 @@ transform = Transform3D(15.254918, -0.4291447, 18.906662, 0, -35.498745, -0.4632
 [node name="StaticBody3D" type="StaticBody3D" parent="boats/boat9" unique_id=455336715]
 
 [node name="BoatModel2" parent="boats/boat9/StaticBody3D" unique_id=309810170 instance=ExtResource("8_tipki")]
-transform = Transform3D(1.0000002, 0, 0, 0, 1.0000001, 0, 0, -1.8626451e-09, 1.0000001, 0, -0.14882302, -0.0033779144)
+transform = Transform3D(0.61263204, -8.381903e-09, 2.3841858e-07, -2.3283064e-10, 0.9892134, 4.656613e-09, 5.9604645e-08, -1.8626451e-09, 1.6681455, 0, -0.14882302, -0.0033779144)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat9/StaticBody3D" unique_id=2062006143]
 transform = Transform3D(1.0000026, 0, 0, 0, 1.0000001, 0, 0, -1.8626451e-09, 1.0000001, -0.0019264221, -0.10294092, -0.050578117)
-shape = SubResource("BoxShape3D_a8y0u")
+shape = SubResource("BoxShape3D_2wyq8")
 
 [node name="TeleportTarget2" parent="." unique_id=1277605819 instance=ExtResource("7_o6xl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.8184, -41.764206, -341.5974)

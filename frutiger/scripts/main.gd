@@ -7,6 +7,7 @@ const BUTTON_TEXTURE_PATH := "res://assets/menu/bubblefull_button.png"
 const MENU_MUSIC_PATH := "res://sounds/main_menu_music.mp3"
 const BIRB_AMBIENT_PATH := "res://sounds/birb_sound.mp3"
 const REVIVE_SOUND_PATH := "res://sounds/revive.mp3.mp3"
+const DEATH_SOUND_PATH := "res://sounds/death.mp3.mp3"
 const RESOLUTION_LIST: Array[String] = ["1280x720", "1600x900", "1920x1080", "2560x1440"]
 
 @export_file("*.png", "*.jpg", "*.jpeg", "*.hdr", "*.exr") var skybox_path: String = "res://assets/skyboxes_49.png"
@@ -41,6 +42,7 @@ var _player_start_position: Vector3 = Vector3.ZERO
 var _menu_music_player: AudioStreamPlayer
 var _ambient_player: AudioStreamPlayer
 var _revive_sound_player: AudioStreamPlayer
+var _death_sound_player: AudioStreamPlayer
 var _game_started: bool = false
 
 
@@ -409,6 +411,7 @@ func _setup_audio_players() -> void:
 	_menu_music_player = _make_loop_player(MENU_MUSIC_PATH, "Music", -8.0)
 	_ambient_player = _make_loop_player(BIRB_AMBIENT_PATH, "SFX", -14.0)
 	_revive_sound_player = _make_one_shot_player(REVIVE_SOUND_PATH, "SFX", -4.0)
+	_death_sound_player = _make_one_shot_player(DEATH_SOUND_PATH, "SFX", 5.0)
 	if _menu_music_player != null:
 		_menu_music_player.play()
 
@@ -619,14 +622,39 @@ func _connect_water_reset_handlers() -> void:
 
 
 func _on_player_entered_water(_player_body: CharacterBody3D) -> void:
+	var clippy_dead := bool(get_tree().root.get_meta("clippy_dead", false))
+	var clippy_fem_died := false
+	if clippy_dead:
+		clippy_fem_died = _kill_following_clippy_fem()
+
 	if player != null:
 		player.global_position = _player_start_position
 		player.velocity = Vector3.ZERO
 	if _revive_sound_player != null:
 		_revive_sound_player.play()
+	if clippy_fem_died and _death_sound_player != null:
+		_death_sound_player.play()
+
 	for npc in get_tree().get_nodes_in_group("escort_resettable"):
+		if clippy_fem_died and npc != null and npc.is_in_group("clippy_fem_npc"):
+			continue
 		if npc != null and npc.has_method("reset_to_spawn"):
 			npc.call("reset_to_spawn")
+
+
+func _kill_following_clippy_fem() -> bool:
+	var died := false
+	for npc in get_tree().get_nodes_in_group("clippy_fem_npc"):
+		if npc == null:
+			continue
+		if not npc.has_method("is_following_player"):
+			continue
+		if not bool(npc.call("is_following_player")):
+			continue
+		if npc.has_method("die_in_water"):
+			npc.call("die_in_water")
+			died = true
+	return died
 
 
 func _on_master_volume_changed(value: float) -> void:
