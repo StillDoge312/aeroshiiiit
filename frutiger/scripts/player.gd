@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 const WALK_SOUND_PATH := "res://sounds/walk.mp3"
+const JUMP_SOUND_PATH := "res://sounds/jump.mp3"
 
 @export var move_speed: float = 8.0
 @export var ground_acceleration: float = 28.0
@@ -41,11 +42,13 @@ var _walk_animation: StringName = StringName()
 var _jump_animation: StringName = StringName()
 var _current_animation: StringName = StringName()
 var _walk_sound: AudioStreamPlayer
+var _jump_sound: AudioStreamPlayer
 
 
 func _ready() -> void:
 	_ensure_jump_action()
 	_setup_walk_sound()
+	_setup_jump_sound()
 	_configure_camera_collision()
 	_apply_glass_material()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -94,6 +97,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_velocity
 		_jump_buffer_left = 0.0
 		_coyote_left = 0.0
+		_play_jump_sound()
 
 	if not is_on_floor():
 		velocity.y -= _gravity * delta
@@ -160,6 +164,18 @@ func _setup_walk_sound() -> void:
 	add_child(_walk_sound)
 
 
+func _setup_jump_sound() -> void:
+	_ensure_audio_bus("SFX")
+	var stream := load(JUMP_SOUND_PATH) as AudioStream
+	if stream == null:
+		return
+	_jump_sound = AudioStreamPlayer.new()
+	_jump_sound.stream = stream
+	_jump_sound.bus = "SFX"
+	_jump_sound.volume_db = -6.0
+	add_child(_jump_sound)
+
+
 func _ensure_audio_bus(bus_name: String) -> void:
 	if AudioServer.get_bus_index(bus_name) != -1:
 		return
@@ -178,6 +194,12 @@ func _set_walk_sound_playing(playing: bool) -> void:
 		return
 	if _walk_sound.playing:
 		_walk_sound.stop()
+
+
+func _play_jump_sound() -> void:
+	if _jump_sound == null:
+		return
+	_jump_sound.play()
 
 
 func _configure_camera_collision() -> void:

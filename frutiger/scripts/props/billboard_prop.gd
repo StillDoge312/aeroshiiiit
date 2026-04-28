@@ -63,7 +63,7 @@ func _setup_mesh() -> void:
 	quad.size = quad_size
 	mesh_instance.mesh = quad
 	mesh_instance.position = Vector3(0.0, quad_size.y * 0.5, 0.0)
-	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 
 
 func _setup_material() -> void:

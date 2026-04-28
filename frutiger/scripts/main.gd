@@ -6,6 +6,7 @@ const SETTINGS_BACKGROUND_PATH := "res://assets/menu/settings_background.jpg"
 const BUTTON_TEXTURE_PATH := "res://assets/menu/bubblefull_button.png"
 const MENU_MUSIC_PATH := "res://sounds/main_menu_music.mp3"
 const BIRB_AMBIENT_PATH := "res://sounds/birb_sound.mp3"
+const REVIVE_SOUND_PATH := "res://sounds/revive.mp3.mp3"
 const RESOLUTION_LIST: Array[String] = ["1280x720", "1600x900", "1920x1080", "2560x1440"]
 
 @export_file("*.png", "*.jpg", "*.jpeg", "*.hdr", "*.exr") var skybox_path: String = "res://assets/skyboxes_49.png"
@@ -39,6 +40,7 @@ var _settings_opened: bool = false
 var _player_start_position: Vector3 = Vector3.ZERO
 var _menu_music_player: AudioStreamPlayer
 var _ambient_player: AudioStreamPlayer
+var _revive_sound_player: AudioStreamPlayer
 var _game_started: bool = false
 
 
@@ -406,6 +408,7 @@ func _ensure_named_bus(bus_name: String) -> void:
 func _setup_audio_players() -> void:
 	_menu_music_player = _make_loop_player(MENU_MUSIC_PATH, "Music", -8.0)
 	_ambient_player = _make_loop_player(BIRB_AMBIENT_PATH, "SFX", -14.0)
+	_revive_sound_player = _make_one_shot_player(REVIVE_SOUND_PATH, "SFX", -4.0)
 	if _menu_music_player != null:
 		_menu_music_player.play()
 
@@ -420,6 +423,19 @@ func _make_loop_player(stream_path: String, bus_name: String, volume_db: float) 
 	elif stream is AudioStreamOggVorbis:
 		(stream as AudioStreamOggVorbis).loop = true
 
+	var player_node := AudioStreamPlayer.new()
+	player_node.stream = stream
+	player_node.bus = bus_name
+	player_node.volume_db = volume_db
+	add_child(player_node)
+	return player_node
+
+
+func _make_one_shot_player(stream_path: String, bus_name: String, volume_db: float) -> AudioStreamPlayer:
+	var stream := load(stream_path) as AudioStream
+	if stream == null:
+		push_warning("Audio stream not found: " + stream_path)
+		return null
 	var player_node := AudioStreamPlayer.new()
 	player_node.stream = stream
 	player_node.bus = bus_name
@@ -606,6 +622,8 @@ func _on_player_entered_water(_player_body: CharacterBody3D) -> void:
 	if player != null:
 		player.global_position = _player_start_position
 		player.velocity = Vector3.ZERO
+	if _revive_sound_player != null:
+		_revive_sound_player.play()
 	for npc in get_tree().get_nodes_in_group("escort_resettable"):
 		if npc != null and npc.has_method("reset_to_spawn"):
 			npc.call("reset_to_spawn")
