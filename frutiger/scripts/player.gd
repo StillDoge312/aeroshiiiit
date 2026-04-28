@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+const WALK_SOUND_PATH := "res://sounds/walk.mp3"
+
 @export var move_speed: float = 8.0
 @export var ground_acceleration: float = 28.0
 @export var air_acceleration: float = 8.0
@@ -24,6 +26,7 @@ extends CharacterBody3D
 @onready var visual: Node3D = $Visual
 @onready var camera_rig: Node3D = $CameraRig
 @onready var pitch_pivot: Node3D = $CameraRig/PitchPivot
+@onready var spring_arm: SpringArm3D = $CameraRig/PitchPivot/SpringArm3D
 @onready var animation_player: AnimationPlayer = _find_animation_player()
 
 var _gravity: float = float(ProjectSettings.get_setting("physics/3d/default_gravity"))
@@ -37,10 +40,13 @@ var _idle_animation: StringName = StringName()
 var _walk_animation: StringName = StringName()
 var _jump_animation: StringName = StringName()
 var _current_animation: StringName = StringName()
+var _walk_sound: AudioStreamPlayer
 
 
 func _ready() -> void:
 	_ensure_jump_action()
+	_setup_walk_sound()
+	_configure_camera_collision()
 	_apply_glass_material()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	camera_rig.rotation.y = _yaw
@@ -68,6 +74,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if not _controls_enabled:
 		velocity = Vector3.ZERO
+		_set_walk_sound_playing(false)
 		_update_animation_state(0.0)
 		move_and_slide()
 		return
@@ -112,6 +119,8 @@ func _physics_process(delta: float) -> void:
 		var target_yaw := atan2(-move_dir.x, -move_dir.z)
 		visual.rotation.y = lerp_angle(visual.rotation.y, target_yaw + model_yaw_offset, min(1.0, delta * 10.0))
 
+	var should_play_walk := is_on_floor() and horizontal_velocity.length() > 0.15
+	_set_walk_sound_playing(should_play_walk)
 	_update_animation_state(horizontal_velocity.length())
 	move_and_slide()
 
@@ -129,7 +138,58 @@ func set_controls_enabled(enabled: bool) -> void:
 	_controls_enabled = enabled
 	_camera_rotate_active = false
 	if not enabled:
+		_set_walk_sound_playing(false)
+	if not enabled:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _setup_walk_sound() -> void:
+	_ensure_audio_bus("SFX")
+	var stream := load(WALK_SOUND_PATH) as AudioStream
+	if stream == null:
+		return
+	if stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = true
+	elif stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+
+	_walk_sound = AudioStreamPlayer.new()
+	_walk_sound.stream = stream
+	_walk_sound.bus = "SFX"
+	_walk_sound.volume_db = -8.0
+	add_child(_walk_sound)
+
+
+func _ensure_audio_bus(bus_name: String) -> void:
+	if AudioServer.get_bus_index(bus_name) != -1:
+		return
+	var insert_index := AudioServer.get_bus_count()
+	AudioServer.add_bus(insert_index)
+	AudioServer.set_bus_name(insert_index, bus_name)
+	AudioServer.set_bus_send(insert_index, "Master")
+
+
+func _set_walk_sound_playing(playing: bool) -> void:
+	if _walk_sound == null:
+		return
+	if playing:
+		if not _walk_sound.playing:
+			_walk_sound.play()
+		return
+	if _walk_sound.playing:
+		_walk_sound.stop()
+
+
+func _configure_camera_collision() -> void:
+	if spring_arm == null:
+		return
+	spring_arm.add_excluded_object(get_rid())
+	var collision_nodes: Array[Node] = find_children("*", "CollisionObject3D", true, false)
+	for node in collision_nodes:
+		var collision_object := node as CollisionObject3D
+		if collision_object == null:
+			continue
+		spring_arm.add_excluded_object(collision_object.get_rid())
 
 
 func _apply_glass_material() -> void:

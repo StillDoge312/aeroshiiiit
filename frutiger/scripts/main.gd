@@ -4,6 +4,8 @@ const SETTINGS_PATH := "user://settings.json"
 const MENU_BACKGROUND_PATH := "res://assets/menu/settings_background.jpg"
 const SETTINGS_BACKGROUND_PATH := "res://assets/menu/settings_background.jpg"
 const BUTTON_TEXTURE_PATH := "res://assets/menu/bubblefull_button.png"
+const MENU_MUSIC_PATH := "res://sounds/main_menu_music.mp3"
+const BIRB_AMBIENT_PATH := "res://sounds/birb_sound.mp3"
 const RESOLUTION_LIST: Array[String] = ["1280x720", "1600x900", "1920x1080", "2560x1440"]
 
 @export_file("*.png", "*.jpg", "*.jpeg", "*.hdr", "*.exr") var skybox_path: String = "res://assets/skyboxes_49.png"
@@ -34,17 +36,25 @@ var _quality_option: OptionButton
 var _resolution_option: OptionButton
 var _settings_tween: Tween
 var _settings_opened: bool = false
+var _player_start_position: Vector3 = Vector3.ZERO
+var _menu_music_player: AudioStreamPlayer
+var _ambient_player: AudioStreamPlayer
+var _game_started: bool = false
 
 
 func _ready() -> void:
 	_apply_skybox()
 	_load_menu_assets()
 	_build_menu_ui()
+	_ensure_audio_buses()
+	_setup_audio_players()
 	_load_settings()
 	_apply_all_settings()
 	_sync_controls_from_settings()
 	_update_ui_layout()
 	_set_player_controls(false)
+	_player_start_position = player.global_position
+	_connect_water_reset_handlers()
 	get_viewport().size_changed.connect(_update_ui_layout)
 
 
@@ -379,6 +389,45 @@ func _apply_audio(bus_name: String, linear_value: float) -> void:
 	AudioServer.set_bus_volume_db(index, linear_to_db(max(clamped, 0.0001)))
 
 
+func _ensure_audio_buses() -> void:
+	_ensure_named_bus("Music")
+	_ensure_named_bus("SFX")
+
+
+func _ensure_named_bus(bus_name: String) -> void:
+	if AudioServer.get_bus_index(bus_name) != -1:
+		return
+	var insert_index := AudioServer.get_bus_count()
+	AudioServer.add_bus(insert_index)
+	AudioServer.set_bus_name(insert_index, bus_name)
+	AudioServer.set_bus_send(insert_index, "Master")
+
+
+func _setup_audio_players() -> void:
+	_menu_music_player = _make_loop_player(MENU_MUSIC_PATH, "Music", -8.0)
+	_ambient_player = _make_loop_player(BIRB_AMBIENT_PATH, "SFX", -14.0)
+	if _menu_music_player != null:
+		_menu_music_player.play()
+
+
+func _make_loop_player(stream_path: String, bus_name: String, volume_db: float) -> AudioStreamPlayer:
+	var stream := load(stream_path) as AudioStream
+	if stream == null:
+		push_warning("Audio stream not found: " + stream_path)
+		return null
+	if stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = true
+	elif stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = true
+
+	var player_node := AudioStreamPlayer.new()
+	player_node.stream = stream
+	player_node.bus = bus_name
+	player_node.volume_db = volume_db
+	add_child(player_node)
+	return player_node
+
+
 func _apply_environment(mode_name: String) -> void:
 	if world_environment.environment == null:
 		world_environment.environment = Environment.new()
@@ -444,6 +493,12 @@ func _on_play_pressed() -> void:
 	_menu_buttons.visible = false
 	_close_settings_window(true)
 	_set_player_controls(true)
+	if _menu_music_player != null and _menu_music_player.playing:
+		_menu_music_player.stop()
+	if not _game_started:
+		_game_started = true
+		if _ambient_player != null:
+			_ambient_player.play()
 
 
 func _on_settings_pressed() -> void:
@@ -532,6 +587,28 @@ func _get_ui_size() -> Vector2:
 func _set_player_controls(enabled: bool) -> void:
 	if player != null and player.has_method("set_controls_enabled"):
 		player.call("set_controls_enabled", enabled)
+
+
+func _connect_water_reset_handlers() -> void:
+	for zone_node in get_tree().get_nodes_in_group("water_teleport_zones"):
+		var zone := zone_node as Node
+		if zone == null:
+			continue
+		if not zone.has_signal("player_entered_water"):
+			continue
+		var callback := Callable(self, "_on_player_entered_water")
+		if zone.is_connected("player_entered_water", callback):
+			continue
+		zone.connect("player_entered_water", callback)
+
+
+func _on_player_entered_water(_player_body: CharacterBody3D) -> void:
+	if player != null:
+		player.global_position = _player_start_position
+		player.velocity = Vector3.ZERO
+	for npc in get_tree().get_nodes_in_group("escort_resettable"):
+		if npc != null and npc.has_method("reset_to_spawn"):
+			npc.call("reset_to_spawn")
 
 
 func _on_master_volume_changed(value: float) -> void:

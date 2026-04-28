@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/npc/clippy_fem_npc.gd" id="1_lm8sk"]
+[ext_resource type="Texture2D" path="res://assets/NPC's/clippy fem.png" id="2_k8v9q"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_vomrw"]
+size = Vector2(5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jpjna"]
+transparency = 1
+albedo_texture = ExtResource("2_k8v9q")
+cull_mode = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r5hwa"]
+radius = 3.2
+
+[node name="ClippyFemNPC" type="Node3D"]
+script = ExtResource("1_lm8sk")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("QuadMesh_vomrw")
+material_override = SubResource("StandardMaterial3D_jpjna")
+cast_shadow = 0
+
+[node name="InteractionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("SphereShape3D_r5hwa")
+
+[node name="Prompt" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6, 0)
+text = "E"
+font_size = 52
+modulate = Color(1, 0.95, 0.35, 1)
+outline_size = 6
+outline_modulate = Color(0, 0, 0, 1)

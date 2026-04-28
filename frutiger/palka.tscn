@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cid4t2c1cu1gq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3awk1"]
+albedo_color = Color(0.5050565, 0.3940808, 0.16019264, 1)
+
+[node name="palka" type="Node3D" unique_id=276567018]
+
+[node name="palochka" type="CSGBox3D" parent="." unique_id=1318853095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.696167)
+use_collision = true
+size = Vector3(1, 1, 6.4987793)
+material = SubResource("StandardMaterial3D_3awk1")
