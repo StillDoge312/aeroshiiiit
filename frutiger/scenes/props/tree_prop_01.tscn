@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/props/billboard_prop.gd" id="1_7op5m"]
+[ext_resource type="Texture2D" path="res://assets/tree/tree.png" id="2_3nvtl"]
+
+[node name="TreeProp01" type="Node3D"]
+script = ExtResource("1_7op5m")
+texture = ExtResource("2_3nvtl")
+quad_size = Vector2(8, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+

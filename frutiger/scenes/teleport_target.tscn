@@ -1,5 +1,10 @@
 [gd_scene format=3]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ix0p"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0)
+
 [sub_resource type="BoxMesh" id="BoxMesh_hm8mx"]
 size = Vector3(0.6, 0.6, 0.6)
 
@@ -7,3 +12,5 @@ size = Vector3(0.6, 0.6, 0.6)
 
 [node name="TargetVisual" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_hm8mx")
+material_override = SubResource("StandardMaterial3D_7ix0p")
+cast_shadow = 0
