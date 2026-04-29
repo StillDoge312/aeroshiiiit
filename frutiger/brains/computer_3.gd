@@ -4,6 +4,7 @@ class_name Interactable
 const RETURN_SCENE_PATH := "res://scenes/main.tscn"
 const RETURN_DELAY_SECONDS := 3.0
 const RETURN_TO_TERRAIN_META := "return_to_terrain"
+const CASTLE_CLEARED_META := "castle_cleared"
 
 @onready var eyes: Node = $"../eyes"
 @onready var directional_light_3d: DirectionalLight3D = $"../DirectionalLight3D"
@@ -33,4 +34,5 @@ func action() -> void:
 	directional_light_3d.show()
 	await get_tree().create_timer(RETURN_DELAY_SECONDS).timeout
 	get_tree().root.set_meta(RETURN_TO_TERRAIN_META, true)
+	get_tree().root.set_meta(CASTLE_CLEARED_META, true)
 	get_tree().change_scene_to_file(RETURN_SCENE_PATH)

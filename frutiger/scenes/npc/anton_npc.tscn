@@ -1,37 +1,36 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://d3m4xpslvx1xw"]
 
-[ext_resource type="Script" path="res://scripts/npc/anton_npc.gd" id="1_anton_script"]
-[ext_resource type="Texture2D" path="res://assets/NPC's/anton.png" id="2_anton_tex"]
+[ext_resource type="Script" uid="uid://sm4rgvv616ir" path="res://scripts/npc/anton_npc.gd" id="1_anton_script"]
+[ext_resource type="Texture2D" uid="uid://bfwx4nst1ix76" path="res://assets/NPC's/anton.png" id="2_anton_tex"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anton"]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("2_anton_tex")
 
 [sub_resource type="QuadMesh" id="QuadMesh_anton"]
 size = Vector2(5, 5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anton"]
-transparency = 1
-albedo_texture = ExtResource("2_anton_tex")
-cull_mode = 2
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_anton"]
 radius = 3.2
 
-[node name="AntonNPC" type="Node3D"]
+[node name="AntonNPC" type="Node3D" unique_id=1059825484]
 script = ExtResource("1_anton_script")
 
-[node name="Visual" type="MeshInstance3D" parent="."]
+[node name="Visual" type="MeshInstance3D" parent="." unique_id=121900991]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-mesh = SubResource("QuadMesh_anton")
 material_override = SubResource("StandardMaterial3D_anton")
 cast_shadow = 0
+mesh = SubResource("QuadMesh_anton")
 
-[node name="InteractionArea" type="Area3D" parent="."]
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1326414493]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=479561832]
 shape = SubResource("SphereShape3D_anton")
 
-[node name="Prompt" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6, 0)
+[node name="Prompt" type="Label3D" parent="." unique_id=1824195274]
+transform = Transform3D(-0.48849946, 0, -0.8725642, 0, 1, 0, 0.8725642, 0, -0.48849946, 0, 5.6, 0)
+modulate = Color(1, 0.95, 0.35, 1)
 text = "E"
 font_size = 52
-modulate = Color(1, 0.95, 0.35, 1)
 outline_size = 6
-outline_modulate = Color(0, 0, 0, 1)

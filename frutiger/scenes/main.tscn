@@ -20,7 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://bv1r5f4ucele3" path="res://assets/clouds/cloud2 (1).png" id="18_n3m8d"]
 [ext_resource type="Texture2D" uid="uid://smd0bapqakc5" path="res://assets/clouds/cloud3 (1).png" id="19_9p2sa"]
 [ext_resource type="PackedScene" uid="uid://by6wulq6ghs3h" path="res://scenes/castle_portal.tscn" id="20_5f5o6"]
-[ext_resource type="PackedScene" path="res://scenes/npc/anton_npc.tscn" id="21_anton"]
+[ext_resource type="PackedScene" uid="uid://d3m4xpslvx1xw" path="res://scenes/npc/anton_npc.tscn" id="21_anton"]
+[ext_resource type="PackedScene" path="res://scenes/npc/anton_v2_npc.tscn" id="22_antonv2"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jyhfs"]
 panorama = ExtResource("1_sugp2")
@@ -249,7 +250,7 @@ transform = Transform3D(0.36215138, 0, -0.9321193, 0, 1, 0, 0.9321193, 0, 0.3621
 target_path = NodePath("../../Player")
 
 [node name="BushProp17" parent="treesnbashes" unique_id=876281154 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.06725666, 0, -0.99773496, 0, 1, 0, 0.99773496, 0, -0.06725666, -419.98987, -5.665291, -272.73224)
+transform = Transform3D(-0.067256644, 0, -0.99773484, 0, 1, 0, 0.99773484, 0, -0.067256644, -419.98987, -5.665291, -272.73224)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp07" parent="treesnbashes" unique_id=1025737136 instance=ExtResource("11_34xqc")]
@@ -309,7 +310,7 @@ transform = Transform3D(-0.62405103, 0, 0.7813836, 0, 1, 0, -0.7813836, 0, -0.62
 target_path = NodePath("../../Player")
 
 [node name="TreeProp14" parent="treesnbashes" unique_id=1706773133 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.05816242, 0, 0.99830633, 0, 1, 0, -0.99830633, 0, 0.05816242, 723.0322, -10.273525, -202.29639)
+transform = Transform3D(0.058162414, 0, 0.9983062, 0, 1, 0, -0.9983062, 0, 0.058162414, 723.0322, -10.273525, -202.29639)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp15" parent="treesnbashes" unique_id=665397893 instance=ExtResource("10_ju23w")]
@@ -381,7 +382,7 @@ transform = Transform3D(0.5773908, 0, 0.81646794, 0, 1, 0, -0.81646794, 0, 0.577
 target_path = NodePath("../../Player")
 
 [node name="TreeProp27" parent="treesnbashes" unique_id=1239442791 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.24973767, 0, -0.9683126, 0, 1, 0, 0.9683126, 0, 0.24973767, -448.2869, 0.06303406, -128.80331)
+transform = Transform3D(0.24973764, 0, -0.96831256, 0, 1, 0, 0.96831256, 0, 0.24973764, -448.2869, 0.06303406, -128.80331)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp28" parent="treesnbashes" unique_id=102816559 instance=ExtResource("9_wqj3u")]
@@ -393,7 +394,7 @@ transform = Transform3D(-0.12073118, 0, -0.9926851, 0, 1, 0, 0.9926851, 0, -0.12
 target_path = NodePath("../../Player")
 
 [node name="BushProp30" parent="treesnbashes" unique_id=507733733 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.15073323, 0, -0.98857373, 0, 1, 0, 0.98857373, 0, 0.15073323, -571.66986, 1.0646591, -157.25536)
+transform = Transform3D(0.15073322, 0, -0.9885736, 0, 1, 0, 0.9885736, 0, 0.15073322, -571.66986, 1.0646591, -157.25536)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp30" parent="treesnbashes" unique_id=2134804027 instance=ExtResource("9_wqj3u")]
@@ -405,7 +406,7 @@ transform = Transform3D(0.27485055, 0, 0.96148616, 0, 1, 0, -0.96148616, 0, 0.27
 target_path = NodePath("../../Player")
 
 [node name="BushProp31" parent="treesnbashes" unique_id=1116576010 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.066828266, 0, 0.99776375, 0, 1, 0, -0.99776375, 0, 0.066828266, 197.11536, 5.5202675, -231.2186)
+transform = Transform3D(0.06682826, 0, 0.99776363, 0, 1, 0, -0.99776363, 0, 0.06682826, 197.11536, 5.5202675, -231.2186)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp32" parent="treesnbashes" unique_id=711003806 instance=ExtResource("9_wqj3u")]
@@ -417,7 +418,7 @@ transform = Transform3D(-0.6506448, 0, 0.7593821, 0, 1, 0, -0.7593821, 0, -0.650
 target_path = NodePath("../../Player")
 
 [node name="TreeProp33" parent="treesnbashes" unique_id=832751661 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.06638888, 0, 0.997793, 0, 1, 0, -0.997793, 0, 0.06638888, 222.05511, -2.8646278, -229.64642)
+transform = Transform3D(0.066388875, 0, 0.9977929, 0, 1, 0, -0.9977929, 0, 0.066388875, 222.05511, -2.8646278, -229.64642)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp34" parent="treesnbashes" unique_id=392948326 instance=ExtResource("10_ju23w")]
@@ -445,7 +446,7 @@ transform = Transform3D(0.016237812, 0, 0.99986815, 0, 1, 0, -0.99986815, 0, 0.0
 target_path = NodePath("../../Player")
 
 [node name="TreeProp38" parent="treesnbashes" unique_id=808061300 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.1530302, 0, 0.9882207, 0, 1, 0, -0.9882207, 0, -0.1530302, 215.6128, -0.09460449, -277.80957)
+transform = Transform3D(-0.15303019, 0, 0.9882206, 0, 1, 0, -0.9882206, 0, -0.15303019, 215.6128, -0.09460449, -277.80957)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp39" parent="treesnbashes" unique_id=974761967 instance=ExtResource("9_wqj3u")]
@@ -469,17 +470,22 @@ transform = Transform3D(0.28833127, 0, 0.95753074, 0, 1, 0, -0.95753074, 0, 0.28
 target_path = NodePath("../../Player")
 
 [node name="TreeProp41" parent="treesnbashes" unique_id=207420974 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.07692489, 0, 0.9970361, 0, 1, 0, -0.9970361, 0, -0.07692489, 121.811714, 11.403805, -253.81921)
+transform = Transform3D(-0.07692488, 0, 0.997036, 0, 1, 0, -0.997036, 0, -0.07692488, 121.811714, 11.403805, -253.81921)
 target_path = NodePath("../../Player")
 
 [node name="ClippyFemNPC" parent="." unique_id=1442278290 instance=ExtResource("16_jbj1t")]
 transform = Transform3D(0.081764586, 0, 0.99665165, 0, 1, 0, -0.99665165, 0, 0.081764586, 392.4065, -54.432373, -342.5513)
 
 [node name="CastlePortal" parent="." unique_id=1762085296 instance=ExtResource("20_5f5o6")]
-transform = Transform3D(0.7235801, 0, -0.6902405, 0, 1, 0, 0.6902405, 0, 0.7235801, -431.00208, 16.888119, 282.407)
+transform = Transform3D(0.7235801, 0, -0.6902405, 0, 1, 0, 0.6902405, 0, 0.7235801, -431.00208, -2.310442, 282.407)
 
 [node name="AntonNPC" parent="." unique_id=1907910229 instance=ExtResource("21_anton")]
 transform = Transform3D(0.9860947, 0, -0.16619082, 0, 1, 0, 0.16619082, 0, 0.9860947, -423.45236, 16.888119, 279.85153)
+
+[node name="AntonV2NPC" parent="." unique_id=89834788 instance=ExtResource("22_antonv2")]
+transform = Transform3D(0.9860947, 0, -0.16619082, 0, 1, 0, 0.16619082, 0, 0.9860947, -423.45236, 16.888119, 279.85153)
+visible = false
+interaction_enabled = false
 
 [node name="water_blocks" type="Node3D" parent="." unique_id=1841704158]
 
@@ -597,4 +603,7 @@ shape = SubResource("BoxShape3D_2wyq8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.8184, -41.764206, -341.5974)
 
 [node name="AntonNPC2" parent="." unique_id=1360536192 instance=ExtResource("21_anton")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.51422, -16.494963, 2.305445)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.51422, -18.538786, 2.305445)
+
+[node name="AntonV2NPC2" parent="." unique_id=756314939 instance=ExtResource("22_antonv2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -322.1023, -42.990192, 259.08435)
