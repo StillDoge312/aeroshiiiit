@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://by6wulq6ghs3h"]
+
+[ext_resource type="Script" uid="uid://dlyruhcrm575p" path="res://scripts/castle_portal.gd" id="1_m6eg4"]
+[ext_resource type="Texture2D" uid="uid://d3fr44gkoa0kg" path="res://assets/castle.jpg" id="2_fh0w8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2d8w7"]
+size = Vector3(12, 8, 12)
+
+[node name="CastlePortal" type="Node3D" unique_id=1934318824]
+script = ExtResource("1_m6eg4")
+
+[node name="CastleSprite" type="Sprite3D" parent="." unique_id=34772305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+pixel_size = 0.05
+texture_filter = 4
+texture = ExtResource("2_fh0w8")
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1818653635]
+transform = Transform3D(9.992639, 0, 0, 0, 8.291279, 0, 0, 0, 1.2093993, 0, -43.243565, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=680007100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_2d8w7")
+
+[node name="PromptLabel3D" type="Label3D" parent="." unique_id=1831289211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+billboard = 1
+text = "E - в brains"

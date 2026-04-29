@@ -9,6 +9,7 @@ const BIRB_AMBIENT_PATH := "res://sounds/birb_sound.mp3"
 const REVIVE_SOUND_PATH := "res://sounds/revive.mp3.mp3"
 const DEATH_SOUND_PATH := "res://sounds/death.mp3.mp3"
 const RESOLUTION_LIST: Array[String] = ["1280x720", "1600x900", "1920x1080", "2560x1440"]
+const RETURN_TO_TERRAIN_META := "return_to_terrain"
 
 @export_file("*.png", "*.jpg", "*.jpeg", "*.hdr", "*.exr") var skybox_path: String = "res://assets/skyboxes_49.png"
 
@@ -60,6 +61,9 @@ func _ready() -> void:
 	_player_start_position = player.global_position
 	_connect_water_reset_handlers()
 	get_viewport().size_changed.connect(_update_ui_layout)
+	if bool(get_tree().root.get_meta(RETURN_TO_TERRAIN_META, false)):
+		get_tree().root.set_meta(RETURN_TO_TERRAIN_META, false)
+		_on_play_pressed()
 
 
 func _apply_skybox() -> void:
