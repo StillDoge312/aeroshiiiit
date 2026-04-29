@@ -1,11 +1,15 @@
 extends Node3D
-## Строительная площадка — работает с существующим Player.
-## ЛКМ — поставить блок, ПКМ — сломать.
-## Колесо мыши — выбор блока.
-## Рейкаст идёт из камеры Player'а по центру экрана.
+## Строительная площадка — режим от первого лица.
+## Вызвать enter_build_mode() чтобы войти.
+## ESC — выйти. Постройка сохраняется.
 
-const REACH := 10.0
+signal build_mode_exited
+
+const REACH := 8.0
 const EPS := 0.01
+const SPEED := 5.0
+const JUMP_VEL := 4.5
+const MSENS := 0.0025
 
 const BLOCK_DEFS := [
 	{"name": "Stone", "color": Color(0.46, 0.47, 0.50), "accent": Color(0.25, 0.26, 0.29)},
@@ -18,8 +22,15 @@ const BLOCK_DEFS := [
 var grid_map: GridMap
 var highlight: MeshInstance3D
 var block_label: Label
+var crosshair: Label
 var active_block: int = 0
-var _camera: Camera3D
+var _building: bool = false
+var _fps_player: CharacterBody3D
+var _fps_head: Node3D
+var _fps_camera: Camera3D
+var _fps_raycast: RayCast3D
+var _main_player: CharacterBody3D
+var _ui: CanvasLayer
 
 
 func _ready() -> void:
@@ -27,22 +38,94 @@ func _ready() -> void:
 	_build_highlight()
 	_build_ui()
 	_seed_ground()
-	# Find camera from Player node (sibling)
-	await get_tree().process_frame
-	var player := get_parent().get_node_or_null("Player") as CharacterBody3D
-	if player != null:
-		var cams: Array[Node] = player.find_children("*", "Camera3D", true, false)
+	_ui.visible = false
+	highlight.visible = false
+
+
+func enter_build_mode() -> void:
+	if _building:
+		return
+	_building = true
+
+	# find and disable main player
+	_main_player = get_parent().get_node_or_null("Player") as CharacterBody3D
+	if _main_player != null and _main_player.has_method("set_controls_enabled"):
+		_main_player.call("set_controls_enabled", false)
+		_main_player.visible = false
+
+	# create FPS player at build zone
+	_fps_player = CharacterBody3D.new()
+	_fps_player.name = "FPSBuilder"
+	_fps_player.position = global_position + Vector3(0, 2, 6)
+
+	var col := CollisionShape3D.new()
+	var cap := CapsuleShape3D.new()
+	cap.radius = 0.35
+	cap.height = 1.8
+	col.shape = cap
+	col.position.y = 0.9
+	_fps_player.add_child(col)
+
+	_fps_head = Node3D.new()
+	_fps_head.position.y = 1.55
+	_fps_player.add_child(_fps_head)
+
+	_fps_camera = Camera3D.new()
+	_fps_camera.current = true
+	_fps_head.add_child(_fps_camera)
+
+	_fps_raycast = RayCast3D.new()
+	_fps_raycast.enabled = true
+	_fps_raycast.target_position = Vector3(0, 0, -REACH)
+	_fps_raycast.collide_with_bodies = true
+	_fps_raycast.collide_with_areas = false
+	_fps_head.add_child(_fps_raycast)
+
+	get_parent().add_child(_fps_player)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	_ui.visible = true
+	_update_label()
+
+
+func _exit_build_mode() -> void:
+	if not _building:
+		return
+	_building = false
+	_ui.visible = false
+	highlight.visible = false
+
+	# restore main player
+	if _main_player != null:
+		if _main_player.has_method("set_controls_enabled"):
+			_main_player.call("set_controls_enabled", true)
+		_main_player.visible = true
+
+	# remove FPS player, restore main camera
+	if _fps_player != null:
+		_fps_player.queue_free()
+		_fps_player = null
+
+	# re-enable main camera
+	if _main_player != null:
+		var cams: Array[Node] = _main_player.find_children("*", "Camera3D", true, false)
 		if not cams.is_empty():
-			_camera = cams[0] as Camera3D
+			(cams[0] as Camera3D).current = true
+
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	build_mode_exited.emit()
 
 
 func _input(event: InputEvent) -> void:
-	if _camera == null:
+	if not _building:
 		return
+	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		_fps_player.rotate_y(-event.relative.x * MSENS)
+		_fps_head.rotate_x(-event.relative.y * MSENS)
+		_fps_head.rotation.x = clampf(_fps_head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			_place()
-		elif event.button_index == MOUSE_BUTTON_MIDDLE:
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			_break()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			active_block = (active_block - 1 + BLOCK_DEFS.size()) % BLOCK_DEFS.size()
@@ -50,33 +133,33 @@ func _input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			active_block = (active_block + 1) % BLOCK_DEFS.size()
 			_update_label()
+	if event.is_action_pressed("ui_cancel"):
+		_exit_build_mode()
+		get_viewport().set_input_as_handled()
 
 
-func _process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if not _building or _fps_player == null:
+		return
+	if not _fps_player.is_on_floor():
+		_fps_player.velocity += _fps_player.get_gravity() * delta
+	if Input.is_action_just_pressed("jump") and _fps_player.is_on_floor():
+		_fps_player.velocity.y = JUMP_VEL
+	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var dir := (_fps_player.global_transform.basis * Vector3(input.x, 0, input.y)).normalized()
+	_fps_player.velocity.x = dir.x * SPEED if dir else move_toward(_fps_player.velocity.x, 0, SPEED)
+	_fps_player.velocity.z = dir.z * SPEED if dir else move_toward(_fps_player.velocity.z, 0, SPEED)
+	_fps_player.move_and_slide()
 	_update_highlight()
 
 
-func _raycast() -> Dictionary:
-	if _camera == null:
-		return {}
-	var viewport := get_viewport()
-	var center := viewport.get_visible_rect().size * 0.5
-	var from := _camera.project_ray_origin(center)
-	var dir := _camera.project_ray_normal(center)
-	var space := get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(from, from + dir * REACH)
-	query.collide_with_bodies = true
-	query.collide_with_areas = false
-	return space.intersect_ray(query)
-
-
 func _update_highlight() -> void:
-	var result := _raycast()
-	if result.is_empty():
+	_fps_raycast.force_raycast_update()
+	if not _fps_raycast.is_colliding():
 		highlight.visible = false
 		return
-	var hit: Vector3 = result.position
-	var norm: Vector3 = result.normal
+	var hit := _fps_raycast.get_collision_point()
+	var norm := _fps_raycast.get_collision_normal()
 	var cell := grid_map.local_to_map(grid_map.to_local(hit - norm * EPS))
 	var item := grid_map.get_cell_item(cell)
 	highlight.visible = item != GridMap.INVALID_CELL_ITEM
@@ -85,31 +168,28 @@ func _update_highlight() -> void:
 
 
 func _place() -> void:
-	var result := _raycast()
-	if result.is_empty():
+	_fps_raycast.force_raycast_update()
+	if not _fps_raycast.is_colliding():
 		return
-	var hit: Vector3 = result.position
-	var norm: Vector3 = result.normal
+	var hit := _fps_raycast.get_collision_point()
+	var norm := _fps_raycast.get_collision_normal()
 	var cell := grid_map.local_to_map(grid_map.to_local(hit + norm * EPS))
 	if grid_map.get_cell_item(cell) != GridMap.INVALID_CELL_ITEM:
 		return
-	# check player overlap
-	var player := get_parent().get_node_or_null("Player") as CharacterBody3D
-	if player != null:
-		var center := grid_map.to_global(grid_map.map_to_local(cell))
-		var ca := AABB(center - Vector3.ONE * 0.5, Vector3.ONE)
-		var pa := AABB(player.global_position + Vector3(-0.4, 0, -0.4), Vector3(0.8, 2.0, 0.8))
-		if ca.intersects(pa):
-			return
+	var center := grid_map.to_global(grid_map.map_to_local(cell))
+	var ca := AABB(center - Vector3.ONE * 0.5, Vector3.ONE)
+	var pa := AABB(_fps_player.global_position + Vector3(-0.35, 0, -0.35), Vector3(0.7, 1.8, 0.7))
+	if ca.intersects(pa):
+		return
 	grid_map.set_cell_item(cell, active_block)
 
 
 func _break() -> void:
-	var result := _raycast()
-	if result.is_empty():
+	_fps_raycast.force_raycast_update()
+	if not _fps_raycast.is_colliding():
 		return
-	var hit: Vector3 = result.position
-	var norm: Vector3 = result.normal
+	var hit := _fps_raycast.get_collision_point()
+	var norm := _fps_raycast.get_collision_normal()
 	var cell := grid_map.local_to_map(grid_map.to_local(hit - norm * EPS))
 	if grid_map.get_cell_item(cell) == GridMap.INVALID_CELL_ITEM:
 		return
@@ -117,7 +197,7 @@ func _break() -> void:
 
 
 func _update_label() -> void:
-	block_label.text = "[%s]   ЛКМ ставить  |  СКМ ломать  |  Колесо — выбор блока" % BLOCK_DEFS[active_block].name
+	block_label.text = "[%s]   ЛКМ ставить  |  ПКМ ломать  |  Колесо выбор  |  ESC выход" % BLOCK_DEFS[active_block].name
 
 
 # ======================== BUILD ========================
@@ -146,10 +226,9 @@ func _build_highlight() -> void:
 
 
 func _build_ui() -> void:
-	var ui := CanvasLayer.new()
-	ui.layer = 10
+	_ui = CanvasLayer.new()
+	_ui.layer = 10
 
-	# block label
 	block_label = Label.new()
 	block_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	block_label.anchor_left = 0.0; block_label.anchor_right = 1.0
@@ -158,23 +237,21 @@ func _build_ui() -> void:
 	block_label.offset_left = 10;  block_label.offset_right = -10
 	block_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	block_label.add_theme_font_size_override("font_size", 18)
-	ui.add_child(block_label)
-	_update_label()
+	_ui.add_child(block_label)
 
-	# crosshair
-	var cross := Label.new()
-	cross.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cross.text = "+"
-	cross.anchor_left = 0.5; cross.anchor_right = 0.5
-	cross.anchor_top = 0.5;  cross.anchor_bottom = 0.5
-	cross.offset_left = -10; cross.offset_right = 10
-	cross.offset_top = -12;  cross.offset_bottom = 12
-	cross.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	cross.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	cross.add_theme_font_size_override("font_size", 24)
-	ui.add_child(cross)
+	crosshair = Label.new()
+	crosshair.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	crosshair.text = "+"
+	crosshair.anchor_left = 0.5; crosshair.anchor_right = 0.5
+	crosshair.anchor_top = 0.5;  crosshair.anchor_bottom = 0.5
+	crosshair.offset_left = -10; crosshair.offset_right = 10
+	crosshair.offset_top = -12;  crosshair.offset_bottom = 12
+	crosshair.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	crosshair.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	crosshair.add_theme_font_size_override("font_size", 24)
+	_ui.add_child(crosshair)
 
-	add_child(ui)
+	add_child(_ui)
 
 
 func _seed_ground() -> void:

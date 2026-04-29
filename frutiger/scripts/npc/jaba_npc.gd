@@ -1,11 +1,15 @@
 extends Node3D
 
-const JABA_DIALOG_DONE_META := "jaba_dialog_done"
 const DIALOG_SOUND_PATH := "res://sounds/dzaba_dialog.mp3"
-const DIALOG_LINES: Array[Dictionary] = [
+const DIALOG_INTRO: Array[Dictionary] = [
 	{"speaker": "Jaba", "text": "Построй мне дом, а я тебя выпущу"},
-	{"speaker": "Jaba", "text": "Поговори с мной как закончишь!"},
 ]
+const DIALOG_PRAISE: Array[Dictionary] = [
+	{"speaker": "Jaba", "text": "Ого, ну ты красавчик!"},
+	{"speaker": "Jaba", "text": "Ладно, свободен"},
+]
+
+enum State { INTRO, BUILDING, PRAISE, DONE }
 
 @export_node_path("CharacterBody3D") var player_path: NodePath = ^"../Player"
 @export var interact_action: StringName = &"interact"
@@ -17,16 +21,23 @@ const DIALOG_LINES: Array[Dictionary] = [
 var _player: CharacterBody3D
 var _player_inside: bool = false
 var _dialog_active: bool = false
-var _dialog_done: bool = false
+var _state: int = State.INTRO
+var _build_zone: Node3D
 
 
 func _ready() -> void:
-	_dialog_done = bool(get_tree().root.get_meta(JABA_DIALOG_DONE_META, false))
 	_ensure_interact_action()
 	_player = get_node_or_null(player_path) as CharacterBody3D
 	set_interaction_enabled(interaction_enabled)
 	interaction_area.body_entered.connect(_on_body_entered)
 	interaction_area.body_exited.connect(_on_body_exited)
+	# find BuildZone sibling
+	await get_tree().process_frame
+	_build_zone = get_parent().get_node_or_null("BuildZone")
+	if _build_zone == null:
+		_build_zone = get_parent().get_node_or_null("BuildScene")
+	if _build_zone != null and _build_zone.has_signal("build_mode_exited"):
+		_build_zone.build_mode_exited.connect(_on_build_done)
 
 
 func _process(_delta: float) -> void:
@@ -40,6 +51,8 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _state == State.BUILDING or _state == State.DONE:
+		return
 	if not _player_inside or _dialog_active:
 		return
 	if not event.is_action_pressed(interact_action):
@@ -55,17 +68,66 @@ func _start_dialog() -> void:
 	_dialog_active = true
 	prompt.visible = false
 	_play_dialog_sound()
+	var lines: Array[Dictionary]
+	if _state == State.INTRO:
+		lines = DIALOG_INTRO
+	else:
+		lines = DIALOG_PRAISE
 	ds.dialog_finished.connect(_on_dialog_finished, CONNECT_ONE_SHOT)
-	ds.show_dialog(DIALOG_LINES)
+	ds.show_dialog(lines)
 
 
 func _on_dialog_finished() -> void:
 	_dialog_active = false
-	if not _dialog_done:
-		_dialog_done = true
-		get_tree().root.set_meta(JABA_DIALOG_DONE_META, true)
+	if _state == State.INTRO:
+		_state = State.BUILDING
+		prompt.visible = false
+		# enter build mode
+		if _build_zone != null and _build_zone.has_method("enter_build_mode"):
+			_build_zone.call("enter_build_mode")
+	elif _state == State.PRAISE:
+		_state = State.DONE
+		prompt.visible = false
+		_show_the_end()
+
+
+func _on_build_done() -> void:
+	_state = State.PRAISE
 	if _player_inside:
 		prompt.visible = true
+
+
+func _show_the_end() -> void:
+	var ui := CanvasLayer.new()
+	ui.layer = 100
+
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0, 0, 0, 0)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ui.add_child(bg)
+
+	var label := Label.new()
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.text = "THE END"
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 120)
+	label.modulate = Color(1, 1, 1, 0)
+	ui.add_child(label)
+
+	get_tree().root.add_child(ui)
+
+	# animate: fade in black bg + white text
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(bg, "color", Color(0, 0, 0, 0.85), 2.0)
+	tween.tween_property(label, "modulate", Color(1, 1, 1, 1), 3.0)
+
+	# disable player
+	if _player != null and _player.has_method("set_controls_enabled"):
+		_player.call("set_controls_enabled", false)
 
 
 func _play_dialog_sound() -> void:
@@ -85,7 +147,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if not _is_player(body):
 		return
 	_player_inside = true
-	if not _dialog_active:
+	if not _dialog_active and _state != State.BUILDING and _state != State.DONE:
 		prompt.visible = true
 
 

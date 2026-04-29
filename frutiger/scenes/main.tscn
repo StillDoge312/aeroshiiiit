@@ -616,4 +616,4 @@ interaction_enabled = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -332.8252, -31.883307, -318.60367)
 
 [node name="BuildScene" parent="." unique_id=853282323 instance=ExtResource("24_y6deb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -339.45343, -31.146317, -336.5608)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -339.45343, -29.433073, -336.5608)
