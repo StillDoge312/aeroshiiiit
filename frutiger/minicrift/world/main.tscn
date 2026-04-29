@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://world/world_grid.gd" id="1_worldgrid"]
+[ext_resource type="MeshLibrary" path="res://meshlib/blocks_meshlib.tres" id="2_meshlib"]
+[ext_resource type="Script" path="res://player/player.gd" id="3_player"]
+[ext_resource type="Script" path="res://ui/hotbar.gd" id="4_hotbar"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape_platform"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="StandardMaterial3D" id="Material_platform"]
+albedo_color = Color(0.22, 0.24, 0.26, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_player"]
+size = Vector3(0.7, 1.8, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_highlight"]
+size = Vector3(1.03, 1.03, 1.03)
+
+[sub_resource type="StandardMaterial3D" id="Material_highlight"]
+transparency = 1
+albedo_color = Color(1, 0.92, 0.05, 0.42)
+shading_mode = 0
+no_depth_test = true
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.55, 0.68, 0.9, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.35
+
+[node name="Main" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Platform" type="StaticBody3D" parent="World"]
+position = Vector3(0, -0.1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Platform"]
+mesh = SubResource("BoxMesh_platform")
+surface_material_override/0 = SubResource("Material_platform")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Platform"]
+shape = SubResource("BoxShape_platform")
+
+[node name="BlockGrid" type="GridMap" parent="World"]
+mesh_library = ExtResource("2_meshlib")
+cell_size = Vector3(1, 1, 1)
+cell_center_x = true
+cell_center_y = true
+cell_center_z = true
+
+[node name="BlockHighlight" type="MeshInstance3D" parent="World"]
+visible = false
+mesh = SubResource("BoxMesh_highlight")
+surface_material_override/0 = SubResource("Material_highlight")
+
+[node name="WorldGrid" type="Node" parent="World" node_paths=PackedStringArray("grid_map", "player")]
+script = ExtResource("1_worldgrid")
+grid_map = NodePath("../BlockGrid")
+player = NodePath("../../Player")
+
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("world_grid_path", "highlight_path", "debug_label_path")]
+script = ExtResource("3_player")
+position = Vector3(0, 0.6, 6)
+world_grid_path = NodePath("../World/WorldGrid")
+highlight_path = NodePath("../World/BlockHighlight")
+debug_label_path = NodePath("../UI/DebugLabel")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("BoxShape_player")
+
+[node name="Head" type="Node3D" parent="Player"]
+position = Vector3(0, 1.55, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head"]
+current = true
+
+[node name="BlockRayCast" type="RayCast3D" parent="Player/Head"]
+target_position = Vector3(0, 0, -5)
+enabled = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Hotbar" type="Control" parent="UI"]
+script = ExtResource("4_hotbar")
+
+[node name="DebugLabel" type="Label" parent="UI"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 360.0
+offset_bottom = 92.0
+text = "Debug"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.9, 0.7, 0)
+light_energy = 1.2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
