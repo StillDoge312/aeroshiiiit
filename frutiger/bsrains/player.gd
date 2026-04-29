@@ -34,13 +34,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		double_jump_available = true
 	
-	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or double_jump_available):
+	if (Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_accept")) and (is_on_floor() or double_jump_available):
 		if not is_on_floor():
 			double_jump_available = false
 		
 		velocity.y = JUMP_VELOCITY
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED

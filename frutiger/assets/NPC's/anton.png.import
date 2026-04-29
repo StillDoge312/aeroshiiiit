@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1ldswbhf8id1"
-valid=false
+uid="uid://bfwx4nst1ix76"
+path="res://.godot/imported/anton.png-f35599a3ac3b2d7aa7c9ca2e1df220e1.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/NPC's/anton.png"
+dest_files=["res://.godot/imported/anton.png-f35599a3ac3b2d7aa7c9ca2e1df220e1.ctex"]
 
 [params]
 

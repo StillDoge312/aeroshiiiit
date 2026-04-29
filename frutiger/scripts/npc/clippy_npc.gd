@@ -17,6 +17,7 @@ const REUNION_DIALOG_LINES: Array[Dictionary] = [
 	{"speaker": "Clippy", "text": "Ну всё, я пошёл за хлебом"},
 	{"speaker": "Clippy", "text": "*исчезаю*"}
 ]
+const CLIPPY_BLESSING_GRANTED_META := "clippy_blessing_granted"
 
 @export_node_path("CharacterBody3D") var player_path: NodePath = ^"../Player"
 @export var interact_action: StringName = &"interact"
@@ -99,6 +100,7 @@ func _on_reunion_dialog_finished() -> void:
 	_dialog_active = false
 	prompt.visible = false
 	get_tree().root.set_meta("clippy_dead", true)
+	get_tree().root.set_meta(CLIPPY_BLESSING_GRANTED_META, true)
 	_play_one_shot_sound(BUBBLE_POP_SOUND_PATH, "SFX", -2.0)
 	queue_free()
 

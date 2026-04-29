@@ -1,5 +1,10 @@
 extends Node3D
 
+const CLIPPY_BLESSING_GRANTED_META := "clippy_blessing_granted"
+const LOCKED_LINES: Array[Dictionary] = [
+	{"speaker": "Anton", "text": "тоо сначала нужно получить благсловлдение Clippy"}
+]
+
 @export var interact_action: StringName = &"interact"
 @export_file("*.tscn") var brains_scene_path: String = "res://bsrains/node_3d.tscn"
 
@@ -8,6 +13,7 @@ extends Node3D
 
 var _player_in_range: bool = false
 var _transition_started: bool = false
+var _dialog_active: bool = false
 
 
 func _ready() -> void:
@@ -27,6 +33,9 @@ func _process(_delta: float) -> void:
 
 
 func _enter_brains() -> void:
+	if not bool(get_tree().root.get_meta(CLIPPY_BLESSING_GRANTED_META, false)):
+		_show_locked_dialog()
+		return
 	if _transition_started:
 		return
 	_transition_started = true
@@ -35,6 +44,36 @@ func _enter_brains() -> void:
 		_transition_started = false
 		return
 	get_tree().change_scene_to_file(brains_scene_path)
+
+
+func _show_locked_dialog() -> void:
+	if _dialog_active:
+		return
+	var anton_npc := get_tree().current_scene.get_node_or_null(^"AntonNPC")
+	if anton_npc != null and anton_npc.has_method("play_locked_dialog"):
+		anton_npc.call("play_locked_dialog")
+		return
+	var dialog_system := _get_dialog_system()
+	if dialog_system == null:
+		push_error("DialogSystem unavailable for castle locked dialog.")
+		return
+	_dialog_active = true
+	dialog_system.dialog_finished.connect(_on_locked_dialog_finished, CONNECT_ONE_SHOT)
+	dialog_system.show_dialog(LOCKED_LINES)
+
+
+func _on_locked_dialog_finished() -> void:
+	_dialog_active = false
+
+
+func _get_dialog_system() -> DialogSystem:
+	var existing := get_tree().root.get_node_or_null(^"DialogSystem") as DialogSystem
+	if existing != null:
+		return existing
+	var created := DialogSystem.new()
+	created.name = "DialogSystem"
+	get_tree().root.add_child(created)
+	return created
 
 
 func _on_body_entered(body: Node3D) -> void:
