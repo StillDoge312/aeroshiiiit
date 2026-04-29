@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://by6wulq6ghs3h" path="res://scenes/castle_portal.tscn" id="20_5f5o6"]
 [ext_resource type="PackedScene" uid="uid://d3m4xpslvx1xw" path="res://scenes/npc/anton_npc.tscn" id="21_anton"]
 [ext_resource type="PackedScene" path="res://scenes/npc/anton_v2_npc.tscn" id="22_antonv2"]
+[ext_resource type="PackedScene" path="res://scenes/exit_door.tscn" id="23_og1vs"]
 [ext_resource type="PackedScene" uid="uid://beffmyfvr7mtr" path="res://scenes/npc/jaba_npc.tscn" id="23_pm3ni"]
 [ext_resource type="PackedScene" path="res://scenes/build_scene.tscn" id="24_y6deb"]
 
@@ -540,6 +541,9 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="boats/boat4/StaticBody3D" unique_id=471244455]
 transform = Transform3D(0.99998593, 3.7252903e-08, 1.6298145e-08, 4.0978193e-08, 0.99999964, 1.5590922e-07, -1.6763806e-08, -2.0838343e-08, 1, -0.0019245148, 0.08387661, 0.05459845)
 shape = SubResource("BoxShape3D_yc10j")
+
+[node name="ExitDoor" parent="boats/boat4/StaticBody3D" unique_id=918913453 instance=ExtResource("23_og1vs")]
+transform = Transform3D(-0.027481189, -0.0011015116, 0.014148023, -0.006740351, 0.0023594315, -0.044274386, -0.0005022869, -0.037029583, -0.0032993103, 3.2148294, 15.661087, -0.030816674)
 
 [node name="boat5" type="Node3D" parent="boats" unique_id=1070170256]
 transform = Transform3D(-2.7635498, 0.41392535, 26.694103, -0.032221187, -35.50158, 0.31123582, 21.253466, 0, 3.4714565, 322.56512, -58.165787, -337.12457)

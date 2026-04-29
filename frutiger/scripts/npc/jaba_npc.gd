@@ -88,7 +88,7 @@ func _on_dialog_finished() -> void:
 	elif _state == State.PRAISE:
 		_state = State.DONE
 		prompt.visible = false
-		_show_the_end()
+		_reveal_exit_door()
 
 
 func _on_build_done() -> void:
@@ -97,37 +97,10 @@ func _on_build_done() -> void:
 		prompt.visible = true
 
 
-func _show_the_end() -> void:
-	var ui := CanvasLayer.new()
-	ui.layer = 100
-
-	var bg := ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0, 0, 0, 0)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	ui.add_child(bg)
-
-	var label := Label.new()
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.text = "THE END"
-	label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 120)
-	label.modulate = Color(1, 1, 1, 0)
-	ui.add_child(label)
-
-	get_tree().root.add_child(ui)
-
-	# animate: fade in black bg + white text
-	var tween := create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(bg, "color", Color(0, 0, 0, 0.85), 2.0)
-	tween.tween_property(label, "modulate", Color(1, 1, 1, 1), 3.0)
-
-	# disable player
-	if _player != null and _player.has_method("set_controls_enabled"):
-		_player.call("set_controls_enabled", false)
+func _reveal_exit_door() -> void:
+	var door := get_tree().current_scene.find_child("ExitDoor", true, false)
+	if door != null and door.has_method("reveal"):
+		door.call("reveal")
 
 
 func _play_dialog_sound() -> void:
