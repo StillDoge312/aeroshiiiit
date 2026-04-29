@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://by6wulq6ghs3h" path="res://scenes/castle_portal.tscn" id="20_5f5o6"]
 [ext_resource type="PackedScene" uid="uid://d3m4xpslvx1xw" path="res://scenes/npc/anton_npc.tscn" id="21_anton"]
 [ext_resource type="PackedScene" path="res://scenes/npc/anton_v2_npc.tscn" id="22_antonv2"]
+[ext_resource type="PackedScene" path="res://scenes/npc/jaba_npc.tscn" id="23_pm3ni"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jyhfs"]
 panorama = ExtResource("1_sugp2")
@@ -117,7 +118,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.270941, 0)
 script = ExtResource("2_qej2g")
 move_speed = 50.0
 air_acceleration = 5.0
-jump_velocity = 10.0
+jump_velocity = 20.0
 outline_thickness = 0.01
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=36214131]
@@ -474,7 +475,7 @@ transform = Transform3D(-0.076924875, 0, 0.9970359, 0, 1, 0, -0.9970359, 0, -0.0
 target_path = NodePath("../../Player")
 
 [node name="ClippyFemNPC" parent="." unique_id=1442278290 instance=ExtResource("16_jbj1t")]
-transform = Transform3D(0.081764586, 0, 0.99665165, 0, 1, 0, -0.99665165, 0, 0.081764586, 392.4065, -54.432373, -342.5513)
+transform = Transform3D(0.081764586, 0, 0.99665165, 0, 1, 0, -0.99665165, 0, 0.081764586, 134.85712, -46.935722, -342.5513)
 
 [node name="CastlePortal" parent="." unique_id=1762085296 instance=ExtResource("20_5f5o6")]
 transform = Transform3D(0.7235801, 0, -0.6902405, 0, 1, 0, 0.6902405, 0, 0.7235801, -431.00208, -2.310442, 282.407)
@@ -609,3 +610,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.51422, -18.538786, 2.30544
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -505.66336, -65.48435, 332.1739)
 visible = false
 interaction_enabled = false
+
+[node name="JabaNPC" parent="." unique_id=1578467486 instance=ExtResource("23_pm3ni")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -332.8252, -31.883307, -318.60367)

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://beffmyfvr7mtr"]
+
+[ext_resource type="Script" uid="uid://b26uqmwu100ls" path="res://scripts/npc/jaba_npc.gd" id="1_jaba_script"]
+[ext_resource type="Texture2D" uid="uid://ccwtc5ldvubr" path="res://assets/NPC's/frutiger jaba.png" id="2_jaba_tex"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaba"]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("2_jaba_tex")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jaba"]
+size = Vector2(5, 5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jaba"]
+radius = 3.2
+
+[node name="JabaNPC" type="Node3D" unique_id=396016894]
+script = ExtResource("1_jaba_script")
+
+[node name="Visual" type="MeshInstance3D" parent="." unique_id=1320683151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+material_override = SubResource("StandardMaterial3D_jaba")
+cast_shadow = 0
+mesh = SubResource("QuadMesh_jaba")
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1042675861]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=303075751]
+shape = SubResource("SphereShape3D_jaba")
+
+[node name="Prompt" type="Label3D" parent="." unique_id=1267886564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6, 0)
+modulate = Color(1, 0.95, 0.35, 1)
+text = "E"
+font_size = 52
+outline_size = 6
