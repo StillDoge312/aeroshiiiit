@@ -26,7 +26,12 @@ var _dialog_done: bool = false
 var _unlocked: bool = false
 
 
+func _enter_tree() -> void:
+	visible = false
+
+
 func _ready() -> void:
+	add_to_group(&"anton_v2_npc")
 	_unlocked = bool(get_tree().root.get_meta(CASTLE_EXPLODED_META, false))
 	_dialog_done = bool(get_tree().root.get_meta(ANTON_V2_DIALOG_DONE_META, false))
 	_ensure_interact_action()

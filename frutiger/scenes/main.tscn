@@ -115,7 +115,7 @@ texture = ExtResource("17_4tyj1")
 [node name="Player" type="CharacterBody3D" parent="." unique_id=168654913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.270941, 0)
 script = ExtResource("2_qej2g")
-move_speed = 20.0
+move_speed = 50.0
 air_acceleration = 5.0
 jump_velocity = 10.0
 outline_thickness = 0.01
@@ -250,7 +250,7 @@ transform = Transform3D(0.36215138, 0, -0.9321193, 0, 1, 0, 0.9321193, 0, 0.3621
 target_path = NodePath("../../Player")
 
 [node name="BushProp17" parent="treesnbashes" unique_id=876281154 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(-0.067256644, 0, -0.99773484, 0, 1, 0, 0.99773484, 0, -0.067256644, -419.98987, -5.665291, -272.73224)
+transform = Transform3D(-0.067256644, 0, -0.9977348, 0, 1, 0, 0.9977348, 0, -0.067256644, -419.98987, -5.665291, -272.73224)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp07" parent="treesnbashes" unique_id=1025737136 instance=ExtResource("11_34xqc")]
@@ -310,7 +310,7 @@ transform = Transform3D(-0.62405103, 0, 0.7813836, 0, 1, 0, -0.7813836, 0, -0.62
 target_path = NodePath("../../Player")
 
 [node name="TreeProp14" parent="treesnbashes" unique_id=1706773133 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.058162414, 0, 0.9983062, 0, 1, 0, -0.9983062, 0, 0.058162414, 723.0322, -10.273525, -202.29639)
+transform = Transform3D(0.05816241, 0, 0.99830616, 0, 1, 0, -0.99830616, 0, 0.05816241, 723.0322, -10.273525, -202.29639)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp15" parent="treesnbashes" unique_id=665397893 instance=ExtResource("10_ju23w")]
@@ -394,7 +394,7 @@ transform = Transform3D(-0.12073118, 0, -0.9926851, 0, 1, 0, 0.9926851, 0, -0.12
 target_path = NodePath("../../Player")
 
 [node name="BushProp30" parent="treesnbashes" unique_id=507733733 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.15073322, 0, -0.9885736, 0, 1, 0, 0.9885736, 0, 0.15073322, -571.66986, 1.0646591, -157.25536)
+transform = Transform3D(0.1507332, 0, -0.98857355, 0, 1, 0, 0.98857355, 0, 0.1507332, -571.66986, 1.0646591, -157.25536)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp30" parent="treesnbashes" unique_id=2134804027 instance=ExtResource("9_wqj3u")]
@@ -406,7 +406,7 @@ transform = Transform3D(0.27485055, 0, 0.96148616, 0, 1, 0, -0.96148616, 0, 0.27
 target_path = NodePath("../../Player")
 
 [node name="BushProp31" parent="treesnbashes" unique_id=1116576010 instance=ExtResource("14_h8nb2")]
-transform = Transform3D(0.06682826, 0, 0.99776363, 0, 1, 0, -0.99776363, 0, 0.06682826, 197.11536, 5.5202675, -231.2186)
+transform = Transform3D(0.06682825, 0, 0.9977636, 0, 1, 0, -0.9977636, 0, 0.06682825, 197.11536, 5.5202675, -231.2186)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp32" parent="treesnbashes" unique_id=711003806 instance=ExtResource("9_wqj3u")]
@@ -418,7 +418,7 @@ transform = Transform3D(-0.6506448, 0, 0.7593821, 0, 1, 0, -0.7593821, 0, -0.650
 target_path = NodePath("../../Player")
 
 [node name="TreeProp33" parent="treesnbashes" unique_id=832751661 instance=ExtResource("10_ju23w")]
-transform = Transform3D(0.066388875, 0, 0.9977929, 0, 1, 0, -0.9977929, 0, 0.066388875, 222.05511, -2.8646278, -229.64642)
+transform = Transform3D(0.066388875, 0, 0.99779284, 0, 1, 0, -0.99779284, 0, 0.066388875, 222.05511, -2.8646278, -229.64642)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp34" parent="treesnbashes" unique_id=392948326 instance=ExtResource("10_ju23w")]
@@ -446,7 +446,7 @@ transform = Transform3D(0.016237812, 0, 0.99986815, 0, 1, 0, -0.99986815, 0, 0.0
 target_path = NodePath("../../Player")
 
 [node name="TreeProp38" parent="treesnbashes" unique_id=808061300 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.15303019, 0, 0.9882206, 0, 1, 0, -0.9882206, 0, -0.15303019, 215.6128, -0.09460449, -277.80957)
+transform = Transform3D(-0.15303017, 0, 0.9882205, 0, 1, 0, -0.9882205, 0, -0.15303017, 215.6128, -0.09460449, -277.80957)
 target_path = NodePath("../../Player")
 
 [node name="TreeProp39" parent="treesnbashes" unique_id=974761967 instance=ExtResource("9_wqj3u")]
@@ -470,7 +470,7 @@ transform = Transform3D(0.28833127, 0, 0.95753074, 0, 1, 0, -0.95753074, 0, 0.28
 target_path = NodePath("../../Player")
 
 [node name="TreeProp41" parent="treesnbashes" unique_id=207420974 instance=ExtResource("10_ju23w")]
-transform = Transform3D(-0.07692488, 0, 0.997036, 0, 1, 0, -0.997036, 0, -0.07692488, 121.811714, 11.403805, -253.81921)
+transform = Transform3D(-0.076924875, 0, 0.9970359, 0, 1, 0, -0.9970359, 0, -0.076924875, 121.811714, 11.403805, -253.81921)
 target_path = NodePath("../../Player")
 
 [node name="ClippyFemNPC" parent="." unique_id=1442278290 instance=ExtResource("16_jbj1t")]
@@ -606,4 +606,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.8184, -41.764206, -341.59
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.51422, -18.538786, 2.305445)
 
 [node name="AntonV2NPC2" parent="." unique_id=756314939 instance=ExtResource("22_antonv2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -322.1023, -42.990192, 259.08435)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -505.66336, -65.48435, 332.1739)
+visible = false
+interaction_enabled = false

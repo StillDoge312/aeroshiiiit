@@ -174,12 +174,15 @@ func _enable_anton_v2() -> void:
 	var anton_v1 := scene_root.get_node_or_null(^"AntonNPC")
 	if anton_v1 != null:
 		anton_v1.queue_free()
-	var anton_v2 := scene_root.get_node_or_null(^"AntonV2NPC")
-	if anton_v2 == null:
-		push_error("AntonV2NPC node not found in main scene.")
-		return
-	if anton_v2.has_method("unlock_after_explosion"):
-		anton_v2.call("unlock_after_explosion")
+	var found := false
+	for npc in get_tree().get_nodes_in_group(&"anton_v2_npc"):
+		if npc == null:
+			continue
+		if npc.has_method("unlock_after_explosion"):
+			npc.call("unlock_after_explosion")
+			found = true
+	if not found:
+		push_error("No AntonV2 NPC nodes found in group 'anton_v2_npc'.")
 
 
 func _ensure_audio_bus(bus_name: String) -> void:
